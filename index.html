@@ -1,0 +1,845 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Funding Radar Italia</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: barra superiore fissa con navigazione a schede, contenuto a colonna unica con griglie adattive; schede misura come righe dense, dettaglio a due colonne. */
+:root{
+  --bg:#EDF0EE; --surface:#FFFFFF; --surface2:#F5F7F6; --ink:#12201C; --muted:#4F605A; --line:#D3DBD7;
+  --accent:#0B6B57; --accent-ink:#FFFFFF; --accent-soft:#DDEFE9; --sun:#B86E00;
+  --ok:#17703F; --ok-bg:#DFF1E6; --warn:#7A5000; --warn-bg:#FBEFD0; --bad:#A02828; --bad-bg:#F8E1DF; --info:#1F4E8C; --info-bg:#E1EBF7; --neu:#4A5753; --neu-bg:#E6EBE9;
+  --f-display:"Bricolage Grotesque","Segoe UI",system-ui,sans-serif; --f-body:"IBM Plex Sans","Segoe UI",system-ui,sans-serif; --f-mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+  --r:6px; --shadow:0 1px 2px rgba(18,32,28,.06);
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0D1513; --surface:#15211E; --surface2:#1B2926; --ink:#E5EEEA; --muted:#9DB1A9; --line:#2B3C37;
+  --accent:#3FC3A0; --accent-ink:#06211A; --accent-soft:#17352E; --sun:#F0A53A;
+  --ok:#6FD19A; --ok-bg:#16301F; --warn:#F0C26A; --warn-bg:#3A2D10; --bad:#F29A96; --bad-bg:#3C1D1C; --info:#8DB6EE; --info-bg:#172B45; --neu:#B5C4BE; --neu-bg:#24332F; --shadow:none; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0D1513; --surface:#15211E; --surface2:#1B2926; --ink:#E5EEEA; --muted:#9DB1A9; --line:#2B3C37;
+  --accent:#3FC3A0; --accent-ink:#06211A; --accent-soft:#17352E; --sun:#F0A53A;
+  --ok:#6FD19A; --ok-bg:#16301F; --warn:#F0C26A; --warn-bg:#3A2D10; --bad:#F29A96; --bad-bg:#3C1D1C; --info:#8DB6EE; --info-bg:#172B45; --neu:#B5C4BE; --neu-bg:#24332F; --shadow:none; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:15px;line-height:1.5;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:0 48px}
+h1,h2,h3{font-family:var(--f-display);line-height:1.15;margin:0;text-wrap:balance;font-weight:700}
+h2{font-size:1.45rem} h3{font-size:1.1rem}
+p{margin:0}
+a{color:var(--accent)}
+button,select,input,textarea{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.wrap{max-width:1180px;margin:0 auto}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:30;background:var(--surface)}
+header.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--surface);border-bottom:1px solid var(--line);margin-inline:calc(-1*max(16px,env(safe-area-inset-left,0px)));padding-inline:max(16px,env(safe-area-inset-left,0px))}
+.topin{max-width:1180px;margin:0 auto;display:flex;flex-wrap:wrap;align-items:center;gap:8px 20px;padding-block:10px}
+.brand{font-family:var(--f-display);font-weight:700;font-size:1.25rem;display:flex;align-items:center;gap:8px;background:none;border:0;padding:0}
+.brand svg{flex:none}
+nav.tabs{display:flex;flex-wrap:wrap;gap:4px;flex:1;min-width:0}
+nav.tabs button,.btn{border:1px solid transparent;background:none;padding:6px 12px;border-radius:var(--r);font-weight:500;min-height:36px}
+nav.tabs button:hover{background:var(--surface2)}
+nav.tabs button[aria-current="page"]{background:var(--accent-soft);color:var(--accent);border-color:var(--accent)}
+.badge-n{font-family:var(--f-mono);font-size:.75rem;background:var(--neu-bg);border-radius:10px;padding:0 6px;margin-left:4px}
+.btn{border-color:var(--line);background:var(--surface)}
+.btn:hover{border-color:var(--accent)}
+.btn.primary{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.btn.small{padding:3px 9px;min-height:30px;font-size:.88rem}
+.btn[aria-pressed="true"]{background:var(--accent-soft);border-color:var(--accent);color:var(--accent)}
+main{padding-top:20px;display:flex;flex-direction:column;gap:24px}
+.banner{background:var(--warn-bg);color:var(--warn);border:1px solid var(--warn);border-radius:var(--r);padding:10px 14px;font-size:.92rem}
+.banner b{font-weight:600}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:16px;box-shadow:var(--shadow);min-width:0}
+.searchrow{display:flex;gap:8px;flex-wrap:wrap}
+.searchrow input[type=search]{flex:1;min-width:200px;padding:12px 14px;border:1px solid var(--line);border-radius:var(--r);background:var(--surface);font-size:1.05rem}
+.hero{display:flex;flex-direction:column;gap:12px}
+.hero h1{font-size:clamp(1.7rem,4vw,2.4rem)}
+.hero p.lead{color:var(--muted);max-width:68ch}
+.counters{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
+.counter{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:12px 14px;display:flex;flex-direction:column;gap:2px;text-align:left;min-width:0}
+button.counter:hover{border-color:var(--accent)}
+.counter .n{font-family:var(--f-mono);font-size:1.9rem;font-weight:500;line-height:1.1}
+.counter .l{font-size:.85rem;color:var(--muted)}
+.cats{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:8px}
+.cat{display:flex;justify-content:space-between;align-items:center;gap:8px;text-align:left;background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:10px 12px;min-width:0}
+.cat:hover{border-color:var(--accent)}
+.cat .c{font-family:var(--f-mono);font-size:.85rem;color:var(--muted)}
+.cat.zero{opacity:.75}
+.sec-h{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap;margin-bottom:10px}
+.sec-h small{color:var(--muted)}
+.cols2{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:16px}
+.list{display:flex;flex-direction:column;gap:8px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:12px 14px;display:grid;grid-template-columns:1fr auto;gap:6px 14px;min-width:0}
+.card h3{font-size:1.05rem}
+.card .meta{grid-column:1/-1;display:flex;flex-wrap:wrap;gap:6px 12px;font-size:.85rem;color:var(--muted)}
+.card .desc{grid-column:1/-1;color:var(--ink);font-size:.92rem;max-width:80ch}
+.card .acts{grid-column:1/-1;display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.card .acts label{display:inline-flex;gap:6px;align-items:center;font-size:.88rem;margin-left:auto}
+.link{background:none;border:0;padding:0;text-align:left;font-family:var(--f-display);font-weight:700;font-size:1.05rem;color:var(--ink);text-decoration:underline;text-decoration-color:var(--line);text-underline-offset:3px}
+.link:hover{color:var(--accent);text-decoration-color:var(--accent)}
+.pill{display:inline-flex;align-items:center;gap:5px;font-size:.78rem;font-weight:600;border-radius:4px;padding:2px 8px;border:1px solid currentColor;white-space:nowrap;letter-spacing:.02em}
+.pill.ok{color:var(--ok);background:var(--ok-bg)} .pill.warn{color:var(--warn);background:var(--warn-bg)} .pill.bad{color:var(--bad);background:var(--bad-bg)} .pill.info{color:var(--info);background:var(--info-bg)} .pill.neu{color:var(--neu);background:var(--neu-bg)}
+.tag{font-size:.78rem;background:var(--surface2);border:1px solid var(--line);border-radius:4px;padding:1px 7px;color:var(--muted)}
+.mono{font-family:var(--f-mono)}
+.layout-s{display:grid;grid-template-columns:290px minmax(0,1fr);gap:16px;align-items:start}
+@media(max-width:860px){.layout-s{grid-template-columns:minmax(0,1fr)}}
+.filters{display:flex;flex-direction:column;gap:12px}
+.filters fieldset{border:1px solid var(--line);border-radius:var(--r);margin:0;padding:8px 10px;min-width:0}
+.filters legend{font-weight:600;font-size:.85rem;padding:0 4px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+.filters label{display:flex;gap:7px;align-items:center;font-size:.9rem;padding:2px 0}
+.filters select,.field select,.field input{width:100%;padding:7px 8px;border:1px solid var(--line);border-radius:var(--r);background:var(--surface);min-height:36px}
+.chips{display:flex;flex-wrap:wrap;gap:6px;align-items:center;min-height:30px}
+.chip{display:inline-flex;gap:6px;align-items:center;background:var(--accent-soft);color:var(--accent);border:1px solid var(--accent);border-radius:14px;padding:2px 4px 2px 10px;font-size:.85rem}
+.chip button{border:0;background:none;color:inherit;font-size:1rem;line-height:1;padding:2px 6px;border-radius:10px}
+.chip button:hover{background:var(--surface)}
+.empty{padding:28px 16px;text-align:center;color:var(--muted);border:1px dashed var(--line);border-radius:var(--r)}
+.detail{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:16px;align-items:start}
+@media(max-width:900px){.detail{grid-template-columns:minmax(0,1fr)}}
+.dsec{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:14px 16px;display:flex;flex-direction:column;gap:8px;min-width:0}
+.dsec h3{display:flex;gap:10px;align-items:baseline}
+.dsec h3 .k{font-family:var(--f-mono);font-size:.8rem;background:var(--accent);color:var(--accent-ink);border-radius:4px;padding:1px 7px}
+.dsec ul{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:3px}
+dl.kv{display:grid;grid-template-columns:minmax(110px,170px) minmax(0,1fr);gap:6px 14px;margin:0}
+dl.kv dt{color:var(--muted);font-size:.88rem} dl.kv dd{margin:0;overflow-wrap:anywhere}
+.nv{color:var(--warn);font-style:italic}
+.checks{display:flex;flex-direction:column;gap:6px;list-style:none;padding:0!important}
+.checks li{display:grid;grid-template-columns:auto 1fr;gap:8px;align-items:start;font-size:.9rem}
+.meter{display:flex;height:10px;border-radius:5px;overflow:hidden;background:var(--neu-bg);border:1px solid var(--line)}
+.meter i{display:block} .meter .m-ok{background:var(--ok)} .meter .m-ver{background:var(--sun)} .meter .m-bad{background:var(--bad)}
+.twrap{overflow-x:auto;border:1px solid var(--line);border-radius:var(--r);background:var(--surface)}
+table{border-collapse:collapse;width:100%;min-width:560px}
+th,td{padding:8px 10px;text-align:left;vertical-align:top;border-bottom:1px solid var(--line);font-size:.9rem}
+th{background:var(--surface2);font-weight:600} tbody th{width:150px;color:var(--muted);font-weight:500}
+.formgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px}
+.field{display:flex;flex-direction:column;gap:4px;font-size:.88rem;min-width:0}
+.field>span{color:var(--muted)}
+.out{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:8px}
+.out div{background:var(--surface2);border:1px solid var(--line);border-radius:var(--r);padding:10px 12px}
+.out b{display:block;font-family:var(--f-mono);font-weight:500;font-size:1.3rem}
+.out span{font-size:.82rem;color:var(--muted)}
+textarea.exp{width:100%;min-height:140px;font-family:var(--f-mono);font-size:.8rem;border:1px solid var(--line);border-radius:var(--r);padding:8px;background:var(--surface2)}
+.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(16px + env(safe-area-inset-bottom,0px));background:var(--ink);color:var(--bg);padding:8px 16px;border-radius:var(--r);z-index:40;font-size:.9rem}
+footer{color:var(--muted);font-size:.85rem;border-top:1px solid var(--line);padding-top:12px;margin-top:8px}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+
+<div class="wrap">
+<header class="top"><div class="topin">
+  <button class="brand" data-go="home" aria-label="Funding Radar Italia, vai alla home">
+    <svg width="26" height="26" viewBox="0 0 26 26" aria-hidden="true"><circle cx="13" cy="13" r="11" fill="none" stroke="var(--accent)" stroke-width="2"/><circle cx="13" cy="13" r="6" fill="none" stroke="var(--accent)" stroke-width="2"/><circle cx="13" cy="13" r="2" fill="var(--sun)"/><path d="M13 13 L21 6" stroke="var(--sun)" stroke-width="2" stroke-linecap="round"/></svg>
+    Funding Radar Italia</button>
+  <nav class="tabs" id="tabs" aria-label="Sezioni"></nav>
+</div></header>
+<main id="main"></main>
+<footer id="foot"></footer>
+</div>
+<div id="toast" class="toast" role="status" hidden></div>
+
+<script>
+"use strict";
+/* ===================== DATABASE ===================== */
+var DATA_DATE = "2026-10-20";
+var CATS = [
+ {id:"nuove",n:"Nuove imprese e autoimpiego"},{id:"startup",n:"Startup innovative"},{id:"fv",n:"Fotovoltaico e rinnovabili"},
+ {id:"agrivolt",n:"Agrivoltaico"},{id:"agri",n:"Agricoltura e agroalimentare"},{id:"beni",n:"Beni strumentali e macchinari"},
+ {id:"digitale",n:"Digitale e Industria 4.0/5.0"},{id:"cred",n:"Crediti d'imposta"},{id:"garanzie",n:"Garanzie e accesso al credito"},
+ {id:"micro",n:"Microcredito"},{id:"eff",n:"Efficienza energetica"},{id:"cer",n:"Comunità energetiche"},
+ {id:"ric",n:"Ricerca e innovazione"},{id:"ip",n:"Brevetti e proprietà intellettuale"},{id:"intl",n:"Internazionalizzazione"},
+ {id:"turismo",n:"Turismo e cultura"},{id:"giovani",n:"Giovani e under 35"},{id:"donne",n:"Imprenditoria femminile"},
+ {id:"lavoro",n:"Formazione e lavoro"},{id:"ue",n:"Bandi europei"},{id:"abruzzo",n:"Bandi Regione Abruzzo"},
+ {id:"lazio",n:"Bandi Regione Lazio"},{id:"sud",n:"Mezzogiorno e ZES"},{id:"tz",n:"Finanziamenti a tasso zero"},
+ {id:"eq",n:"Equity e venture capital"}
+];
+var AID = {fp:"Fondo perduto",tz:"Finanziamento a tasso zero",ci:"Contributo in conto interessi",vou:"Voucher",gar:"Garanzia",cred:"Credito d'imposta / iperammortamento",eq:"Equity",pre:"Prestito / mutuo"};
+var BEN = {under35:"Giovani under 35",inocc:"Inattivi / inoccupati / disoccupati",nuova:"Nuova impresa o aspirante imprenditore",startup:"Startup innovativa",pmi:"PMI già costituita",agric:"Impresa agricola",ente:"Comunità / enti / gruppi di cittadini",persona:"Persona fisica"};
+var ACT = {fv:"Fotovoltaico",agrivolt:"Agrivoltaico",agri:"Agricoltura",manif:"Manifattura e beni strumentali",digit:"Digitale e tecnologia",energia:"Energia e efficienza",ric:"Ricerca e innovazione",ip:"Proprietà intellettuale",altro:"Altro / multisettore"};
+var STATUS = {
+ APERTO:{l:"Aperto",c:"ok",g:"●"}, CHIUSO:{l:"Chiuso",c:"bad",g:"■"}, ANNUNCIATA:{l:"In apertura annunciata",c:"info",g:"▲"},
+ ATTESA_EDIZIONE:{l:"In attesa di nuova edizione",c:"neu",g:"◆"}, DA_VERIFICARE:{l:"Da verificare",c:"warn",g:"?"}
+};
+var HP = "Portale ufficiale dell'ente; pagina specifica della misura non verificata";
+function S(label,url,type,consulted,opened){return {label:label,url:url,type:type,consulted:consulted||null,opened:!!opened};}
+
+var DB = [
+{id:"RAS2-2025",name:"Resto al Sud 2.0",edition:"2.0, apertura 15/10/2025",body:"Invitalia",level:"Nazionale",regions:["Abruzzo","Basilicata","Calabria","Campania","Molise","Puglia","Sardegna","Sicilia"],
+ aid:["fp","vou"],cats:["nuove","giovani","sud"],sectors:["altro"],benef:["under35","inocc","nuova","persona"],
+ status:"APERTO",evidence:"ufficiale",reported:"Attivo, sportello con valutazione in ordine cronologico entro 90 giorni",lastVerified:"2026-10-20",
+ plain:"Aiuto all'autoimpiego nel Sud: contributo a fondo perduto per aprire una nuova attività. Dedicato a chi ha tra 18 e 34 anni ed è in una condizione occupazionale specifica (inattivo, inoccupato, disoccupato, programma GOL, working poor).",
+ money:"Voucher a fondo perduto fino a 40.000 euro (elevabili a 50.000). Programmi fino a 120.000 euro: fondo perduto 75%. Programmi tra 120.000 e 200.000 euro: fondo perduto 70%. Dotazione 356,4 milioni di euro.",
+ intensity:75,maxEur:200000,lowCapital:true,
+ reqs:["Età da 18 anni compiuti a 35 non ancora compiuti.","Condizione: inattivo, inoccupato o disoccupato, disoccupato del programma GOL oppure working poor.","Iniziativa in Abruzzo, Basilicata, Calabria, Campania, Molise, Puglia, Sardegna o Sicilia.","Settori esclusi: agricoltura, pesca e acquacoltura.","Requisito di residenza: non indicato nella pagina consultata (da verificare nel bando)."],
+ expenses:"Elenco non riportato nella pagina principale. Consultare la sezione «Spese ammissibili» sul sito Invitalia.",
+ procedure:"Domanda online dall'area personale Invitalia, a sportello. Valutazione entro 90 giorni in ordine cronologico, nei limiti delle risorse.",
+ open:"2025-10-15",close:null,closeNote:"Chiusura non indicata: sportello fino a esaurimento delle risorse.",
+ fundingSource:"Fondi nazionali per il Mezzogiorno (dotazione 356,4 M€); programma specifico non verificato",
+ cumul:"non verificato",deMinimis:"non indicato nella pagina consultata; verificare il bando",
+ example:{kind:"fp",inv:100000},
+ rules:[{k:"age",min:18,max:34,txt:"Età 18–34 anni"},{k:"employment",txt:"Condizione occupazionale richiesta"},{k:"noagri",txt:"Settore non agricolo"}],
+ eval:{pro:["Quota a fondo perduto molto alta (75% fino a 120.000 euro)","Sportello aperto, risorse dedicate"],con:["Requisito occupazionale stringente e non dichiarato nel tuo profilo","Esclude l'agricoltura, quindi anche l'agrivoltaico inteso come attività agricola"]},
+ urls:[S("Scheda Invitia","https://www.invitalia.it/incentivi-e-strumenti/resto-al-sud-20","ufficiale",DATA_DATE,true),S("Area riservata domande","https://invitalia-areariservata-fe.npi.invitalia.it/","ufficiale",null,false),S("Spese ammissibili","https://www.invitalia.it/incentivi-e-strumenti/resto-al-sud-20/spese-ammissibili","ufficiale",null,false),S("Normativa","https://www.invitalia.it/incentivi-e-strumenti/resto-al-sud-20/normativa","ufficiale",null,false)],
+ kw:"autoimpiego sud giovani disoccupati gol working poor"},
+
+{id:"ON-2021",name:"ON – Oltre Nuove imprese a tasso zero",edition:"Apertura 19/05/2021; dal 01/07/2026 solo finanziamento agevolato",body:"Invitalia",level:"Nazionale",regions:["ITALIA"],
+ aid:["tz"],cats:["nuove","giovani","donne","tz"],sectors:["altro"],benef:["under35","nuova","persona"],
+ status:"APERTO",evidence:"ufficiale",reported:"Attivo. Dal 1° luglio 2026 fondi a fondo perduto esauriti: solo finanziamento a tasso zero",lastVerified:"2026-10-20",
+ plain:"Agevolazione per nuove imprese di giovani (18–35) o donne, in produzione, servizi, commercio e turismo. Dal 1° luglio 2026 resta solo il finanziamento a tasso zero, perché il fondo perduto è esaurito.",
+ money:"Finanziamento a tasso zero fino al 90% delle spese, rimborso in 10 anni. Importo massimo del progetto: 3 milioni di euro. Quota a fondo perduto: non più disponibile per le domande dal 01/07/2026.",
+ intensity:90,maxEur:3000000,lowCapital:true,
+ reqs:["Imprese costituite da non più di 60 mesi, oppure persone fisiche che intendono costituirle.","Più della metà dei soci (per numero e quote) con 18–35 anni oppure donne di qualsiasi età.","Settori: produzione, servizi, commercio, turismo.","Nuove iniziative oppure ampliamento, diversificazione o trasformazione di attività esistenti."],
+ expenses:"Elenco non riportato nella pagina principale (rimanda alle FAQ «Agevolazioni e spese ammissibili»).",
+ procedure:"Domanda dall'Area personale Invitalia. Dall'11/12/2025 la piattaforma è migrata: le società costituite devono prima registrarsi al modulo «Anagrafica e deleghe». Valutazione in due fasi.",
+ open:"2021-05-19",close:null,closeNote:"Scadenza non indicata.",
+ fundingSource:"Non indicata nella pagina consultata",cumul:"non verificato",deMinimis:"non indicato nella pagina consultata; verificare il bando",
+ example:{kind:"loan",inv:100000,pct:90,years:10},
+ rules:[{k:"company",need:"any",txt:"Impresa ≤60 mesi o da costituire"},{k:"compagine",txt:"Maggioranza soci 18–35 anni o donne"}],
+ eval:{pro:["Finanziamento a tasso zero fino al 90% delle spese","Aperta anche a chi deve ancora costituire l'impresa","Nazionale: non dipende dalla regione"],con:["Dal 01/07/2026 senza quota a fondo perduto: il finanziamento va restituito","Dipende dalla composizione dei soci"]},
+ urls:[S("Scheda Invitia","https://www.invitalia.it/incentivi-e-strumenti/ON-nuove-imprese-tasso-zero","ufficiale",DATA_DATE,true),S("Notizia sul solo finanziamento dal 01/07/2026","https://www.invitalia.it/news-media/news/oltre-nuove-imprese-tasso-zero-dal-1deg-luglio-2026-disponibile-solo-il-finanziamento-agevolato","ufficiale",null,false)],
+ kw:"nuove imprese tasso zero giovani donne startup"},
+
+{id:"SSI-2026",name:"Smart&Start Italia",edition:"Sportello vigente (piattaforma migrata il 03/11/2025)",body:"Invitalia",level:"Nazionale",regions:["ITALIA"],
+ aid:["tz","fp"],cats:["startup","nuove","tz","sud"],sectors:["digit","ric","altro"],benef:["startup","nuova"],
+ status:"APERTO",evidence:"ufficiale",reported:"Attivo, procedura a sportello senza graduatorie né scadenze",lastVerified:"2026-10-20",
+ plain:"Finanziamento a tasso zero per startup innovative di piccola dimensione. Per le startup con sede nel Centro-Sud è previsto anche un contributo a fondo perduto.",
+ money:"Finanziamento a tasso zero pari all'80% delle spese ammissibili; 90% se la startup è composta interamente da donne e/o under 36, o se c'è un dottore di ricerca impegnato all'estero. Per sedi nel Centro-Sud: contributo a fondo perduto del 30% (base di calcolo non specificata nella pagina). Progetti descritti tra 100.000 euro e 1,5 milioni di euro.",
+ intensity:90,maxEur:1500000,lowCapital:true,
+ reqs:["Startup innovativa di piccola dimensione, costituita da non più di 60 mesi e iscritta alla sezione speciale del Registro delle imprese.","Ammessi anche team di persone, startup Visa e imprese estere che aprono una sede in Italia.","Spese ammissibili: non indicate nella pagina consultata."],
+ expenses:"Non indicate nella pagina consultata.",
+ procedure:"Domanda tramite area personale Invitalia con allegati scaricabili dal sito. Sportello senza graduatorie. Esame entro 60 giorni dalla presentazione, in ordine di arrivo.",
+ open:null,close:null,closeNote:"Nessuna scadenza: sportello.",
+ fundingSource:"Non indicata nella pagina consultata",cumul:"non verificato",deMinimis:"non indicato nella pagina consultata; verificare il bando",
+ example:{kind:"ssi",inv:100000},
+ rules:[{k:"startup",txt:"Startup innovativa iscritta alla sezione speciale"}],
+ eval:{pro:["Finanziamento a tasso zero fino al 90%","Fondo perduto 30% per sedi nel Centro-Sud (Abruzzo incluso)","Sportello senza scadenze"],con:["Serve una startup innovativa vera e propria, con requisiti di innovazione da dimostrare","Durata del rimborso non indicata nella pagina consultata"]},
+ urls:[S("Scheda Invitalia","https://www.invitalia.it/incentivi-e-strumenti/smartstart-italia","ufficiale",DATA_DATE,true),S("Area di presentazione","https://sportellossi-ssi.npi.invitalia.it/","ufficiale",null,false)],
+ kw:"startup innovative tecnologia tasso zero"},
+
+{id:"AUTO-CN",name:"Autoimpiego Centro-Nord",edition:"Edizione vigente",body:"Invitalia",level:"Nazionale",regions:["CENTRO-NORD"],
+ aid:["fp"],cats:["nuove"],sectors:["altro"],benef:["nuova","persona"],
+ status:"APERTO",evidence:"ufficiale",reported:"Attivo secondo la scheda ufficiale. Non applicabile alle regioni del Sud, Abruzzo compreso",lastVerified:"2026-10-20",
+ plain:"Misura di autoimpiego dedicata alle regioni del Centro-Nord. Esclude l'Abruzzo, che rientra tra le regioni di Resto al Sud 2.0.",
+ money:"Non verificato in dettaglio.",intensity:null,maxEur:null,lowCapital:null,
+ reqs:["Iniziativa in una regione del Centro-Nord (non applicabile all'Abruzzo).","Altri requisiti: non verificati."],
+ expenses:"Non verificato.",procedure:"Non verificata (domanda tramite Invitalia).",open:null,close:null,closeNote:"Non verificata.",
+ fundingSource:"non verificato",cumul:"non verificato",deMinimis:"non verificato",example:null,
+ rules:[],eval:{pro:["Utile solo se vuoi aprire l'attività in una regione del Centro-Nord"],con:["Non applicabile all'Abruzzo"]},
+ urls:[S("Scheda Invitalia","https://www.invitalia.it/incentivi-e-strumenti/autoimpiego-centro-nord","ufficiale",DATA_DATE,true)],kw:"autoimpiego centro nord lazio"},
+
+{id:"SAB-2026",name:"Nuova Sabatini",edition:"Sportello vigente",body:"MIMIT",level:"Nazionale",regions:["ITALIA"],
+ aid:["ci"],cats:["beni","digitale"],sectors:["manif","digit"],benef:["pmi"],
+ status:"APERTO",evidence:"ufficiale",reported:"Fondi disponibili al 14/10/2026 secondo elaborazione; stato «aperto» non indicato come finestra a date",lastVerified:"2026-10-14",
+ plain:"Contributo che copre parte degli interessi su finanziamenti bancari per comprare macchinari, impianti, attrezzature e hardware/software. La domanda passa da una banca o un intermediario aderente. Serve una PMI già costituita.",
+ money:"Contributo in conto interessi su finanziamenti per investimenti in beni strumentali. Percentuali, importi minimi e massimi: non verificati in questa sessione (la pagina MIMIT è stata consultata ma non è stato possibile rileggerla per estrarre i valori).",
+ intensity:null,maxEur:null,lowCapital:null,
+ reqs:["PMI già costituita e operativa.","Investimento in beni strumentali nuovi.","Finanziamento bancario o leasing tramite intermediario aderente.","Importi e maggiorazioni (4.0, green, Mezzogiorno): non verificati."],
+ expenses:"Beni strumentali (macchinari, impianti, attrezzature, hardware, software); dettaglio non verificato.",
+ procedure:"Domanda alla banca o al leasing aderente; il contributo viene poi richiesto sulla piattaforma ministeriale.",
+ open:null,close:null,closeNote:"Sportello fino a esaurimento delle risorse; data di chiusura non indicata.",
+ fundingSource:"Fondi MIMIT; dettaglio non verificato",cumul:"non verificato",deMinimis:"non verificato",example:null,
+ rules:[{k:"company",need:true,txt:"PMI già costituita"}],
+ eval:{pro:["Misura strutturale e ricorrente per l'acquisto di macchinari"],con:["Richiede un'impresa già attiva","Non copre il capitale proprio: serve comunque un finanziamento bancario"]},
+ urls:[S("Scheda MIMIT","https://www.mimit.gov.it/it/incentivi/agevolazioni-per-gli-investimenti-delle-pmi-in-beni-strumentali-nuova-sabatini","ufficiale","2026-10-14",true),S("Piattaforma domande","https://benistrumentali.dgiai.gov.it","ufficiale",null,false)],
+ kw:"macchinari beni strumentali pmi banca leasing"},
+
+{id:"AMP-2026",name:"Avviso Unico Abruzzo Micro Prestiti",edition:"Edizione maggio 2026",body:"Regione Abruzzo / FiRA",level:"Regionale",regions:["Abruzzo"],
+ aid:["pre"],cats:["micro","abruzzo","nuove"],sectors:["altro"],benef:["nuova","persona"],
+ status:"CHIUSO",evidence:"ufficiale",reported:"Chiuso secondo la pagina regionale",lastVerified:"2026-10-20",
+ plain:"Microprestiti regionali dell'Abruzzo finanziati dal FSE. L'avviso consultato risulta chiuso: da tenere d'occhio per una nuova edizione.",
+ money:"Non verificato in dettaglio.",intensity:null,maxEur:null,lowCapital:null,
+ reqs:["Requisiti: non verificati."],expenses:"Non verificate.",procedure:"Non verificata.",open:"2026-05-01",close:null,closeNote:"Pagina FiRA: apertura maggio 2026, chiusura fino a esaurimento risorse; la pagina regionale lo riporta chiuso.",
+ fundingSource:"FSE (Regione Abruzzo)",cumul:"non verificato",deMinimis:"non verificato",example:null,rules:[],
+ eval:{pro:["Misura regionale pensata per piccole iniziative in Abruzzo"],con:["Attualmente chiusa"]},
+ urls:[S("Avviso regionale","https://coesione.regione.abruzzo.it/avvisi-pubblici/fse/avviso-unico-abruzzo-micro-prestiti","ufficiale",DATA_DATE,true),S("Scheda FiRA","https://www.fira.it/fira-avviso-unico-abruzzo-micro-prestiti-apertura-maggio-2026chiusura-fino-a-esaurimento-risorse/","ufficiale",DATA_DATE,true)],kw:"microcredito abruzzo fse"},
+
+{id:"SRD03-2026",name:"PSR/CSR Abruzzo – Intervento SRD03 diversificazione aziende agricole",edition:"Bando 2026",body:"Regione Abruzzo / FiRA",level:"Regionale",regions:["Abruzzo"],
+ aid:["fp"],cats:["agri","abruzzo"],sectors:["agri"],benef:["agric"],
+ status:"DA_VERIFICARE",evidence:"secondaria",reported:"Secondo la scheda FiRA: apertura 09/10/2026, chiusura 23/11/2026. Non confermato dal bando ufficiale",lastVerified:null,
+ plain:"Investimenti nelle aziende agricole per attività non agricole (diversificazione). Richiede di essere già un'azienda agricola.",
+ money:"Importi e percentuali: non verificati.",intensity:null,maxEur:null,lowCapital:null,
+ reqs:["Essere un'azienda agricola già esistente.","Altri requisiti: non verificati."],expenses:"Non verificate.",procedure:"Non verificata.",open:"2026-10-09",close:"2026-11-23",closeNote:"Date riportate da FiRA, non confermate sul bando ufficiale.",
+ fundingSource:"Programma di sviluppo rurale regionale (non verificato)",cumul:"non verificato",deMinimis:"non verificato",example:null,
+ rules:[{k:"farm",need:true,txt:"Azienda agricola già esistente"}],eval:{pro:["Finestra a date riportata da FiRA, ente regionale"],con:["Serve un'azienda agricola già attiva","Date non confermate dal bando"]},
+ urls:[S("Scheda FiRA (link riportato, non riaperto)","https://www.fira.it/regione-abruzzo-bando-intervento-srd03-investimenti-nelle-aziende-agricole-per-la-diversificazione-in-attivita-non-agricole-apertura-9-10-2026-chiusura-23-11-2026/","secondaria",DATA_DATE,false)],kw:"agricoltura diversificazione agriturismo abruzzo"},
+
+{id:"AGRISOL-2026",name:"Parco Agrisolare",edition:"Finestra 2026 (10/03–09/04/2026)",body:"MASAF / GSE",level:"Nazionale",regions:["ITALIA"],
+ aid:["fp"],cats:["fv","agri"],sectors:["fv","agri"],benef:["agric","pmi"],
+ status:"CHIUSO",evidence:"secondaria",reported:"Finestra di domanda 10/03–09/04/2026 secondo FiRA e fonti secondarie; non confermato sul sito del ministero",lastVerified:null,
+ plain:"Impianti fotovoltaici sui tetti di edifici agricoli e produttivi del settore agricolo. Edizione 2026 con finestra già conclusa secondo le fonti consultate.",
+ money:"Non verificato.",intensity:null,maxEur:null,lowCapital:null,reqs:["Impresa del settore agricolo già esistente (fonte secondaria).","Altri requisiti: non verificati."],
+ expenses:"Non verificate.",procedure:"Non verificata.",open:"2026-03-10",close:"2026-04-09",closeNote:"Date riportate da fonti secondarie.",
+ fundingSource:"non verificato",cumul:"non verificato",deMinimis:"non verificato",example:null,
+ rules:[{k:"farm",need:true,txt:"Impresa agricola esistente"}],eval:{pro:["Misura a tema fotovoltaico con quota agricola"],con:["Finestra chiusa","Per imprese già esistenti"]},
+ urls:[S("Portale GSE (pagina specifica non verificata)","https://www.gse.it","ufficiale",null,false)],kw:"fotovoltaico tetti agricoltura agrisolare"},
+
+{id:"IPER-2026",name:"Iperammortamento beni strumentali",edition:"Edizione 2026",body:"MIMIT / Agenzia delle Entrate / GSE",level:"Nazionale",regions:["ITALIA"],
+ aid:["cred"],cats:["beni","digitale","cred"],sectors:["manif","digit"],benef:["pmi"],
+ status:"DA_VERIFICARE",evidence:"secondaria",reported:"Riportato da fonti secondarie; norma e modalità non verificate su fonte ufficiale",lastVerified:null,
+ plain:"Maggiorazione fiscale del costo di investimenti in beni strumentali tecnologici. È un beneficio fiscale, non un contributo in denaro: riduce le imposte dell'impresa.",
+ money:"Non verificato.",intensity:null,maxEur:null,lowCapital:null,reqs:["Impresa con reddito d'impresa (fonte secondaria).","Altri requisiti: non verificati."],
+ expenses:"Non verificate.",procedure:"Non verificata.",open:null,close:null,closeNote:"Non verificata.",fundingSource:"Norma nazionale (non verificata)",cumul:"non verificato",deMinimis:"non verificato",example:null,
+ rules:[{k:"company",need:true,txt:"Impresa già costituita"}],eval:{pro:["Utile per chi investe in macchinari digitali"],con:["Beneficio fiscale: serve l'impresa e un reddito imponibile","Verifica fiscale con un professionista"]},
+ urls:[S("Portale MIMIT (pagina specifica non verificata)","https://www.mimit.gov.it","ufficiale",null,false)],kw:"iperammortamento industria 4.0 5.0 transizione"},
+
+{id:"ZES-UNICA",name:"Credito d'imposta ZES Unica Mezzogiorno",edition:"Edizione vigente",body:"Agenzia delle Entrate / Struttura di missione ZES",level:"Nazionale",regions:["SUD","Abruzzo"],
+ aid:["cred"],cats:["sud","cred"],sectors:["altro"],benef:["pmi"],
+ status:"DA_VERIFICARE",evidence:"secondaria",reported:"Riportato da fonti secondarie",lastVerified:null,
+ plain:"Credito d'imposta per investimenti in beni strumentali nelle regioni del Mezzogiorno incluse nella ZES Unica. Beneficio fiscale per imprese.",
+ money:"Non verificato.",intensity:null,maxEur:null,lowCapital:null,reqs:["Impresa con investimento nel territorio ZES (fonte secondaria).","Altri requisiti: non verificati."],
+ expenses:"Non verificate.",procedure:"Non verificata.",open:null,close:null,closeNote:"Non verificata.",fundingSource:"non verificato",cumul:"non verificato",deMinimis:"non verificato",example:null,
+ rules:[{k:"company",need:true,txt:"Impresa già costituita"}],eval:{pro:["Territorio Abruzzo compreso nel Mezzogiorno"],con:["Per imprese che investono, non per chi parte da zero"]},
+ urls:[S("Portale Agenzia delle Entrate (pagina specifica non verificata)","https://www.agenziaentrate.gov.it","ufficiale",null,false)],kw:"zes mezzogiorno credito imposta investimenti"},
+
+{id:"PNRIC-FTV",name:"PN RIC – misura fotovoltaico Sud",edition:"Denominazione da verificare",body:"non verificato",level:"Nazionale",regions:["SUD"],
+ aid:["fp"],cats:["fv","sud"],sectors:["fv","energia"],benef:["pmi"],
+ status:"DA_VERIFICARE",evidence:"secondaria",reported:"Riportato da fonti secondarie; denominazione, ente e stato non confermati",lastVerified:null,
+ plain:"Misura sul fotovoltaico nelle regioni del Sud segnalata da fonti secondarie. Titolo, ente gestore e condizioni non sono stati confermati.",
+ money:"Non verificato.",intensity:null,maxEur:null,lowCapital:null,reqs:["Non verificati."],expenses:"Non verificate.",procedure:"Non verificata.",open:null,close:null,closeNote:"Non verificata.",
+ fundingSource:"non verificato",cumul:"non verificato",deMinimis:"non verificato",example:null,rules:[],eval:{pro:["A tema fotovoltaico e Sud"],con:["Dati non confermati: non fare affidamento senza verifica"]},
+ urls:[S("Portale MIMIT (pagina specifica non verificata)","https://www.mimit.gov.it","ufficiale",null,false)],kw:"fotovoltaico sud pnric"},
+
+{id:"FER-PMI",name:"Contributi MIMIT per rinnovabili alle PMI (FER PMI)",edition:"Da verificare",body:"MIMIT",level:"Nazionale",regions:["ITALIA"],
+ aid:["fp"],cats:["fv","eff"],sectors:["fv","energia"],benef:["pmi"],
+ status:"DA_VERIFICARE",evidence:"secondaria",reported:"Riportato da fonti secondarie",lastVerified:null,
+ plain:"Sostegno a imprese già costituite per impianti da fonti rinnovabili. Denominazione e condizioni da confermare.",
+ money:"Non verificato.",intensity:null,maxEur:null,lowCapital:null,reqs:["Impresa già costituita (fonte secondaria).","Altri requisiti: non verificati."],expenses:"Non verificate.",procedure:"Non verificata.",open:null,close:null,closeNote:"Non verificata.",
+ fundingSource:"non verificato",cumul:"non verificato",deMinimis:"non verificato",example:null,rules:[{k:"company",need:true,txt:"Impresa già costituita"}],
+ eval:{pro:["A tema fotovoltaico e rinnovabili"],con:["Per imprese esistenti","Dati non confermati"]},
+ urls:[S("Portale MIMIT (pagina specifica non verificata)","https://www.mimit.gov.it","ufficiale",null,false)],kw:"fotovoltaico rinnovabili pmi"},
+
+{id:"FACILITY-AGRIV",name:"Facility Agrivoltaico",edition:"Da verificare",body:"non verificato",level:"Nazionale",regions:["ITALIA"],
+ aid:["gar","pre"],cats:["agrivolt","fv","agri"],sectors:["agrivolt","agri","fv"],benef:["agric","pmi"],
+ status:"DA_VERIFICARE",evidence:"secondaria",reported:"Riportato da fonti secondarie; ente e strumento non confermati",lastVerified:null,
+ plain:"Strumento finanziario per progetti agrivoltaici segnalato da fonti secondarie. Natura (garanzia o finanziamento), ente e requisiti non confermati.",
+ money:"Non verificato.",intensity:null,maxEur:null,lowCapital:null,reqs:["Non verificati."],expenses:"Non verificate.",procedure:"Non verificata.",open:null,close:null,closeNote:"Non verificata.",
+ fundingSource:"non verificato",cumul:"non verificato",deMinimis:"non verificato",example:null,rules:[],eval:{pro:["Diretto all'agrivoltaico"],con:["Informazioni non confermate"]},
+ urls:[S("Portale MASE (pagina specifica non verificata)","https://www.mase.gov.it","ufficiale",null,false)],kw:"agrivoltaico agricoltura fotovoltaico"},
+
+{id:"CER",name:"Comunità energetiche rinnovabili (CER): contributo e tariffa incentivante",edition:"Finestra e tariffa: fonti discordanti",body:"GSE / MASE",level:"Nazionale",regions:["ITALIA"],
+ aid:["fp","ci"],cats:["cer","fv"],sectors:["fv","energia"],benef:["ente","persona"],
+ status:"DA_VERIFICARE",evidence:"secondaria",reported:"Fonti secondarie discordanti su finestra di domanda e valore della tariffa (€/MWh)",lastVerified:null,
+ plain:"Incentivi per chi condivide energia rinnovabile in una comunità: tariffa sull'energia condivisa e, per piccoli comuni, contributo sull'investimento. Valori e date non confermati.",
+ money:"Non verificato: valori in conflitto tra le fonti secondarie.",intensity:null,maxEur:null,lowCapital:null,reqs:["Costituire una comunità energetica o aderirvi (fonte secondaria).","Altri requisiti: non verificati."],
+ expenses:"Non verificate.",procedure:"Non verificata.",open:null,close:null,closeNote:"Non verificata (fonti discordanti).",fundingSource:"non verificato",cumul:"non verificato",deMinimis:"non verificato",example:null,rules:[],
+ eval:{pro:["Accessibile anche a persone fisiche che aderiscono"],con:["Dati in conflitto tra le fonti: leggere il sito GSE"]},
+ urls:[S("Portale GSE (pagina specifica non verificata)","https://www.gse.it","ufficiale",null,false)],kw:"cer comunità energetiche energia condivisa fotovoltaico"},
+
+{id:"FER-X",name:"FER X",edition:"Da verificare",body:"GSE / MASE",level:"Nazionale",regions:["ITALIA"],
+ aid:["pre"],cats:["fv"],sectors:["fv","energia"],benef:["pmi"],
+ status:"DA_VERIFICARE",evidence:"secondaria",reported:"Riportato da fonti secondarie",lastVerified:null,
+ plain:"Meccanismo di incentivi per impianti rinnovabili di impianti di taglia industriale. Per chi gestisce o sviluppa impianti: dettagli non verificati.",
+ money:"Non verificato.",intensity:null,maxEur:null,lowCapital:null,reqs:["Non verificati."],expenses:"Non verificate.",procedure:"Non verificata.",open:null,close:null,closeNote:"Non verificata.",
+ fundingSource:"non verificato",cumul:"non verificato",deMinimis:"non verificato",example:null,rules:[],eval:{pro:["A tema fotovoltaico"],con:["Probabilmente fuori scala per un avvio con poco capitale"]},
+ urls:[S("Portale GSE (pagina specifica non verificata)","https://www.gse.it","ufficiale",null,false)],kw:"fer x fotovoltaico impianti rinnovabili"},
+
+{id:"GENTERRA",name:"Generazione Terra",edition:"Da verificare",body:"ISMEA",level:"Nazionale",regions:["ITALIA"],
+ aid:["pre"],cats:["agri","giovani"],sectors:["agri"],benef:["under35","agric"],
+ status:"DA_VERIFICARE",evidence:"secondaria",reported:"Riportato da fonti secondarie",lastVerified:null,
+ plain:"Mutui agevolati ISMEA per giovani che vogliono avviare o ampliare un'azienda agricola. Condizioni non verificate.",
+ money:"Non verificato.",intensity:null,maxEur:null,lowCapital:null,reqs:["Giovani in agricoltura (fonte secondaria).","Altri requisiti: non verificati."],expenses:"Non verificate.",procedure:"Non verificata.",open:null,close:null,closeNote:"Non verificata.",
+ fundingSource:"non verificato",cumul:"non verificato",deMinimis:"non verificato",example:null,rules:[{k:"farm",need:"any",txt:"Progetto in ambito agricolo"}],
+ eval:{pro:["Pensata per giovani in agricoltura"],con:["Dati non confermati"]},
+ urls:[S("Portale ISMEA (pagina specifica non verificata)","https://www.ismea.it","ufficiale",null,false)],kw:"giovani agricoltura terra mutuo ismea"},
+
+{id:"MUTUO-U36",name:"Garanzia mutuo prima casa under 36",edition:"Da verificare",body:"Consap",level:"Nazionale",regions:["ITALIA"],
+ aid:["gar"],cats:["giovani","garanzie"],sectors:["altro"],benef:["under35","persona"],
+ status:"DA_VERIFICARE",evidence:"secondaria",reported:"Riportato da fonti secondarie",lastVerified:null,
+ plain:"Garanzia pubblica sui mutui per l'acquisto della prima casa da parte di giovani. Non è un incentivo all'attività d'impresa.",
+ money:"Non verificato.",intensity:null,maxEur:null,lowCapital:null,reqs:["Età sotto i 36 anni (fonte secondaria).","Altri requisiti, tra cui ISEE: non verificati."],expenses:"Acquisto prima casa.",procedure:"Non verificata.",open:null,close:null,closeNote:"Non verificata.",
+ fundingSource:"non verificato",cumul:"non verificato",deMinimis:"non pertinente (persona fisica)",example:null,rules:[{k:"age",min:18,max:35,txt:"Età sotto i 36 anni"},{k:"isee",txt:"Limite ISEE"}],
+ eval:{pro:["Compatibile con la tua età"],con:["Non finanzia un'attività economica"]},
+ urls:[S("Portale Consap (pagina specifica non verificata)","https://www.consap.it","ufficiale",null,false)],kw:"mutuo casa giovani garanzia"},
+
+{id:"VOUCHER-DT",name:"Voucher Doppia Transizione",edition:"Da verificare",body:"non verificato",level:"Nazionale",regions:["ITALIA"],
+ aid:["vou"],cats:["digitale","eff"],sectors:["digit","energia"],benef:["pmi"],
+ status:"DA_VERIFICARE",evidence:"secondaria",reported:"Riportato da fonti secondarie",lastVerified:null,
+ plain:"Voucher per progetti di transizione digitale ed ecologica delle imprese. Ente, importi e finestre non verificati.",
+ money:"Non verificato.",intensity:null,maxEur:null,lowCapital:null,reqs:["Impresa già costituita (fonte secondaria)."],expenses:"Non verificate.",procedure:"Non verificata.",open:null,close:null,closeNote:"Non verificata.",
+ fundingSource:"non verificato",cumul:"non verificato",deMinimis:"non verificato",example:null,rules:[{k:"company",need:true,txt:"Impresa già costituita"}],
+ eval:{pro:["Copre digitale ed efficienza"],con:["Per imprese esistenti, dati non confermati"]},
+ urls:[S("Portale MIMIT (pagina specifica non verificata)","https://www.mimit.gov.it","ufficiale",null,false)],kw:"voucher digitale transizione"},
+
+{id:"DIGITAL-ABR",name:"Bando digitalizzazione imprese FESR Abruzzo",edition:"Date discordanti tra fonti",body:"Regione Abruzzo",level:"Regionale",regions:["Abruzzo"],
+ aid:["fp"],cats:["digitale","abruzzo"],sectors:["digit"],benef:["pmi"],
+ status:"DA_VERIFICARE",evidence:"secondaria",reported:"Date discordanti tra fonti secondarie",lastVerified:null,
+ plain:"Contributi regionali FESR per la digitalizzazione delle imprese abruzzesi. Date e condizioni da confermare sul sito regionale.",
+ money:"Non verificato.",intensity:null,maxEur:null,lowCapital:null,reqs:["Impresa con sede operativa in Abruzzo (fonte secondaria).","Altri requisiti: non verificati."],expenses:"Non verificate.",procedure:"Non verificata.",open:null,close:null,closeNote:"Date in conflitto tra le fonti.",
+ fundingSource:"FESR Abruzzo",cumul:"non verificato",deMinimis:"non verificato",example:null,rules:[{k:"company",need:true,txt:"Impresa già costituita con sede in Abruzzo"}],
+ eval:{pro:["Territorio Abruzzo"],con:["Per imprese esistenti","Date non confermate"]},
+ urls:[S("Portale Regione Abruzzo (pagina specifica non verificata)","https://www.regione.abruzzo.it","ufficiale",null,false)],kw:"digitale fesr abruzzo imprese"},
+
+{id:"GRANSASSO",name:"Credito Gran Sasso",edition:"Da verificare",body:"non verificato",level:"Regionale",regions:["Abruzzo"],
+ aid:["pre"],cats:["abruzzo"],sectors:["altro"],benef:["pmi"],
+ status:"DA_VERIFICARE",evidence:"secondaria",reported:"Riportato da fonti secondarie",lastVerified:null,
+ plain:"Strumento di credito locale in Abruzzo segnalato da fonti secondarie. Soggetto gestore e caratteristiche non confermati.",
+ money:"Non verificato.",intensity:null,maxEur:null,lowCapital:null,reqs:["Non verificati."],expenses:"Non verificate.",procedure:"Non verificata.",open:null,close:null,closeNote:"Non verificata.",
+ fundingSource:"non verificato",cumul:"non verificato",deMinimis:"non verificato",example:null,rules:[],eval:{pro:["Strumento locale abruzzese"],con:["Informazioni non confermate"]},
+ urls:[S("Portale Regione Abruzzo (pagina specifica non verificata)","https://www.regione.abruzzo.it","ufficiale",null,false)],kw:"credito abruzzo gran sasso finanziamento"},
+
+{id:"BREVETTI",name:"Brevetti+",edition:"Fonti discordanti",body:"UIBM / Invitalia",level:"Nazionale",regions:["ITALIA"],
+ aid:["fp"],cats:["ip","ric"],sectors:["ip","ric"],benef:["pmi","startup"],
+ status:"DA_VERIFICARE",evidence:"secondaria",reported:"Fonti secondarie discordanti",lastVerified:null,
+ plain:"Agevolazioni per valorizzare brevetti, utili a startup e imprese innovative. Condizioni e date da confermare.",
+ money:"Non verificato.",intensity:null,maxEur:null,lowCapital:null,reqs:["Titolarità o domanda di un brevetto (fonte secondaria)."],expenses:"Non verificate.",procedure:"Non verificata.",open:null,close:null,closeNote:"Non verificata.",
+ fundingSource:"non verificato",cumul:"non verificato",deMinimis:"non verificato",example:null,rules:[],eval:{pro:["Utile se hai un'invenzione da tutelare"],con:["Dati non confermati"]},
+ urls:[S("Portale Invitalia (pagina specifica non verificata)","https://www.invitalia.it","ufficiale",null,false)],kw:"brevetti proprietà intellettuale innovazione"},
+
+{id:"CONTO-TERMICO",name:"Conto Termico",edition:"Versione vigente da verificare",body:"GSE",level:"Nazionale",regions:["ITALIA"],
+ aid:["fp"],cats:["eff"],sectors:["energia"],benef:["pmi","persona","ente"],
+ status:"DA_VERIFICARE",evidence:"secondaria",reported:"Riportato da fonti secondarie; ricorrente a sportello GSE secondo le fonti",lastVerified:null,
+ plain:"Contributi del GSE per interventi di efficienza energetica e produzione di calore da fonti rinnovabili. Condizioni da confermare. Possibili misure regionali collegate in Abruzzo: non verificate.",
+ money:"Non verificato.",intensity:null,maxEur:null,lowCapital:null,reqs:["Non verificati."],expenses:"Interventi di efficienza energetica (fonte secondaria).",procedure:"Non verificata.",open:null,close:null,closeNote:"Non verificata.",
+ fundingSource:"Fondi nazionali (GSE)",cumul:"non verificato",deMinimis:"non verificato",example:null,rules:[],eval:{pro:["Misura ricorrente sull'energia"],con:["Dati non confermati"]},
+ urls:[S("Portale GSE (pagina specifica non verificata)","https://www.gse.it","ufficiale",null,false)],kw:"conto termico efficienza energetica pompe di calore"},
+
+{id:"LAZIO-RACC",name:"Regione Lazio: bandi per imprese e startup (da censire)",edition:"Raccolta da completare",body:"Regione Lazio",level:"Regionale",regions:["Lazio"],
+ aid:["fp"],cats:["lazio","startup"],sectors:["altro"],benef:["pmi","startup"],
+ status:"DA_VERIFICARE",evidence:"secondaria",reported:"Segnalati da fonti secondarie; nessun bando specifico confermato",lastVerified:null,
+ plain:"Segnaposto per i bandi laziali: nessun bando singolo è stato verificato. Da censire una volta scelta la regione.",
+ money:"Non verificato.",intensity:null,maxEur:null,lowCapital:null,reqs:["Sede in Lazio (generico)."],expenses:"Non verificate.",procedure:"Non verificata.",open:null,close:null,closeNote:"Non verificata.",
+ fundingSource:"non verificato",cumul:"non verificato",deMinimis:"non verificato",example:null,rules:[],eval:{pro:["Utile solo se valuti il Lazio"],con:["Nessun dato verificato"]},
+ urls:[S("Portale Regione Lazio (pagina specifica non verificata)","https://www.regione.lazio.it","ufficiale",null,false)],kw:"lazio startup bandi regionali"},
+
+{id:"EIC-ACC",name:"EIC Accelerator",edition:"Cut-off periodici",body:"Commissione europea (EIC)",level:"UE",regions:["UE"],
+ aid:["fp","eq"],cats:["ue","ric","eq","startup"],sectors:["ric","digit"],benef:["startup","pmi"],
+ status:"DA_VERIFICARE",evidence:"secondaria",reported:"Bando ricorrente con scadenze periodiche; date correnti non verificate",lastVerified:null,
+ plain:"Programma europeo per startup e PMI ad alto potenziale tecnologico: sovvenzione e possibile investimento in equity. Concorrenza molto alta.",
+ money:"Non verificato in questa sessione.",intensity:null,maxEur:null,lowCapital:null,reqs:["PMI o startup con tecnologia innovativa (fonte secondaria).","Altri requisiti: non verificati."],expenses:"Non verificate.",procedure:"Candidatura sul portale europeo.",open:null,close:null,closeNote:"Date dei cut-off non verificate.",
+ fundingSource:"Horizon Europe (non verificato)",cumul:"non verificato",deMinimis:"non applicabile (aiuto UE diretto), da verificare",example:null,rules:[{k:"startup",txt:"Impresa innovativa a forte contenuto tecnologico"}],
+ eval:{pro:["Può finanziare progetti ambiziosi senza capitale proprio elevato"],con:["Molto competitivo, serve un progetto tecnologico maturo"]},
+ urls:[S("Portale EIC (pagina specifica non verificata)","https://eic.ec.europa.eu","ufficiale",null,false)],kw:"europa innovazione startup equity deep tech"},
+
+{id:"DIGITAL-EU",name:"Programma Europa Digitale",edition:"Inviti multipli",body:"Commissione europea",level:"UE",regions:["UE"],
+ aid:["fp"],cats:["ue","digitale"],sectors:["digit"],benef:["pmi","ente"],
+ status:"DA_VERIFICARE",evidence:"secondaria",reported:"Inviti periodici; stati e date non verificati",lastVerified:null,
+ plain:"Inviti europei su intelligenza artificiale, cybersicurezza e competenze digitali. Richiedono in genere partenariati.",
+ money:"Non verificato.",intensity:null,maxEur:null,lowCapital:null,reqs:["Spesso consorzi di più soggetti (fonte secondaria)."],expenses:"Non verificate.",procedure:"Non verificata.",open:null,close:null,closeNote:"Non verificata.",
+ fundingSource:"Programma Europa Digitale",cumul:"non verificato",deMinimis:"non verificato",example:null,rules:[],eval:{pro:["Temi tecnologici"],con:["Partenariati complessi, poco adatti a un avvio individuale"]},
+ urls:[S("Portale Digital Europe","https://digital-strategy.ec.europa.eu/en/activities/digital-programme","ufficiale",null,false)],kw:"europa digitale ai cybersicurezza"},
+
+{id:"EUIPO-SME",name:"EUIPO Ideas Powered for Business SME Fund",edition:"Da verificare",body:"EUIPO",level:"UE",regions:["UE"],
+ aid:["vou"],cats:["ue","ip"],sectors:["ip"],benef:["pmi"],
+ status:"DA_VERIFICARE",evidence:"secondaria",reported:"Riportato da fonti secondarie",lastVerified:null,
+ plain:"Voucher europei per la tutela di marchi e disegni delle PMI. Condizioni e finestre da confermare.",
+ money:"Non verificato.",intensity:null,maxEur:null,lowCapital:null,reqs:["PMI con sede nell'UE (fonte secondaria)."],expenses:"Costi di registrazione di marchi e disegni (fonte secondaria).",procedure:"Non verificata.",open:null,close:null,closeNote:"Non verificata.",
+ fundingSource:"EUIPO",cumul:"non verificato",deMinimis:"non verificato",example:null,rules:[{k:"company",need:true,txt:"PMI già costituita"}],eval:{pro:["Tutela marchi e disegni a costo ridotto"],con:["Per PMI esistenti"]},
+ urls:[S("Portale EUIPO (pagina specifica non verificata)","https://www.euipo.europa.eu","ufficiale",null,false)],kw:"marchi disegni pmi europa"},
+
+{id:"FDG-PMI",name:"Fondo di Garanzia per le PMI",edition:"Strumento strutturale",body:"MCC / MIMIT",level:"Nazionale",regions:["ITALIA"],
+ aid:["gar"],cats:["garanzie"],sectors:["altro"],benef:["pmi","persona"],
+ status:"DA_VERIFICARE",evidence:"secondaria",reported:"Strumento strutturale riportato da fonti secondarie; condizioni vigenti non verificate",lastVerified:null,
+ plain:"Garanzia pubblica sui finanziamenti bancari alle PMI: riduce la richiesta di garanzie reali alla banca. È una garanzia, non un contributo.",
+ money:"Non verificato.",intensity:null,maxEur:null,lowCapital:true,reqs:["PMI o professionista (fonte secondaria).","Altri requisiti: non verificati."],expenses:"Non applicabile (garanzia).",procedure:"Richiesta tramite banca o confidi (fonte secondaria).",open:null,close:null,closeNote:"Non verificata.",
+ fundingSource:"Fondi pubblici nazionali",cumul:"non verificato",deMinimis:"non verificato (verificare l'equivalente sovvenzione lordo)",example:null,rules:[{k:"company",need:true,txt:"PMI o professionista già attivo"}],
+ eval:{pro:["Aiuta ad ottenere credito con poco patrimonio"],con:["Serve comunque restituire il finanziamento"]},
+ urls:[S("Portale Fondo di Garanzia","https://www.fondidigaranzia.mcc.it","ufficiale",null,false)],kw:"garanzia banca credito pmi"}
+];
+
+/* ===================== LOGIC ===================== */
+var TODAY = new Date(); TODAY.setHours(0,0,0,0);
+var STALE_DAYS = 30;
+function pd(s){return s? new Date(s+"T00:00:00"):null;}
+function fmt(s){if(!s)return "";var d=pd(s);return ("0"+d.getDate()).slice(-2)+"/"+("0"+(d.getMonth()+1)).slice(-2)+"/"+d.getFullYear();}
+function daysTo(s){return Math.round((pd(s)-TODAY)/86400000);}
+function esc(t){return String(t==null?"":t).replace(/[&<>"']/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c];});}
+function eur(n){return Number(n).toLocaleString("it-IT",{maximumFractionDigits:0})+" €";}
+function eur2(n){return Number(n).toLocaleString("it-IT",{minimumFractionDigits:2,maximumFractionDigits:2})+" €";}
+function stale(r){return r.lastVerified? (TODAY-pd(r.lastVerified))/86400000>STALE_DAYS : true;}
+function effStatus(r){ if(r.status==="APERTO" && (r.evidence!=="ufficiale"||stale(r))) return "DA_VERIFICARE"; return r.status; }
+function stPill(key){var s=STATUS[key];return '<span class="pill '+s.c+'"><span aria-hidden="true">'+s.g+'</span>'+s.l+'</span>';}
+function byId(id){for(var i=0;i<DB.length;i++)if(DB[i].id===id)return DB[i];return null;}
+var SUD=["Abruzzo","Basilicata","Calabria","Campania","Molise","Puglia","Sardegna","Sicilia"];
+var REGIONS=["Abruzzo","Basilicata","Calabria","Campania","Molise","Puglia","Sardegna","Sicilia","Lazio","Marche","Umbria","Toscana","Emilia-Romagna","Veneto","Lombardia","Piemonte","Altra regione Centro-Nord"];
+function regionApplies(r,name){
+  var R=r.regions;
+  if(R.indexOf("ITALIA")>=0) return true;
+  if(name==="UE") return R.indexOf("UE")>=0;
+  if(R.indexOf("UE")>=0) return true;
+  if(R.indexOf(name)>=0) return true;
+  if(SUD.indexOf(name)>=0 && R.indexOf("SUD")>=0) return true;
+  if(SUD.indexOf(name)<0 && name!=="UE" && R.indexOf("CENTRO-NORD")>=0) return true;
+  return false;
+}
+/* Compatibilità: solo criteri espliciti. Esito per criterio: ok / miss / ver */
+var profile={age:22,region:"Abruzzo",employment:"nd",company:"nd",farm:"nd",activity:"nd"};
+function evalFit(r){
+  var checks=[];
+  var es=effStatus(r);
+  checks.push({res:es==="APERTO"?"ok":(r.status==="CHIUSO"?"miss":"ver"),txt:"Misura aperta e verificata di recente",det:es==="APERTO"?"Aperta, verificata il "+fmt(r.lastVerified):(r.status==="CHIUSO"?"Risulta chiusa":"Stato non confermato o verifica oltre "+STALE_DAYS+" giorni")});
+  if(profile.region==="nd") checks.push({res:"ver",txt:"Territorio",det:"Regione non indicata nel profilo"});
+  else if(regionApplies(r,profile.region)) checks.push({res:"ok",txt:"Territorio",det:"Applicabile in "+profile.region});
+  else checks.push({res:"miss",txt:"Territorio",det:"Non applicabile in "+profile.region+" (ambito: "+r.regions.join(", ")+")"});
+  r.rules.forEach(function(u){
+    var c={txt:u.txt,res:"ver",det:""};
+    if(u.k==="age"){ if(profile.age===""||isNaN(profile.age)){c.det="Età non indicata";} else if(profile.age>=u.min&&profile.age<=u.max){c.res="ok";c.det="Hai "+profile.age+" anni";} else {c.res="miss";c.det="Hai "+profile.age+" anni, fuori intervallo "+u.min+"–"+u.max;} }
+    else if(u.k==="employment"){ if(profile.employment==="nd")c.det="Condizione occupazionale non dichiarata"; else if(profile.employment==="occ"){c.res="miss";c.det="Occupato: la misura richiede una condizione specifica";} else {c.res="ok";c.det="Condizione dichiarata compatibile (da documentare)";} }
+    else if(u.k==="company"){ if(u.need==="any"){c.res="ok";c.det="Vale sia per imprese esistenti sia da costituire";} else if(profile.company==="nd")c.det="Esistenza dell'impresa non dichiarata"; else if(profile.company==="si"){c.res="ok";c.det="Impresa dichiarata come esistente";} else {c.res="miss";c.det="Impresa non ancora costituita";} }
+    else if(u.k==="farm"){ if(u.need==="any"){c.res="ver";c.det="Dipende dall'ambito del progetto";} else if(profile.farm==="nd")c.det="Status di agricoltore non dichiarato"; else if(profile.farm==="si"){c.res="ok";c.det="Azienda agricola dichiarata";} else {c.res="miss";c.det="Non sei un'azienda agricola";} }
+    else if(u.k==="noagri"){ if(profile.activity==="agrivolt"||profile.farm==="si"){c.res="miss";c.det="Attività agricola/agrivoltaica dichiarata, settore escluso";} else if(profile.activity==="nd")c.det="Attività non indicata nel profilo"; else {c.res="ok";c.det="Attività non agricola";} }
+    else if(u.k==="startup"){c.det="Richiede iscrizione alla sezione speciale startup: non dichiarata nel profilo";}
+    else if(u.k==="compagine"){c.det=(profile.age!==""&&profile.age>=18&&profile.age<=35?"La tua età rientra in 18–35; ":"")+"dipende dalla composizione dei soci, non dichiarata";}
+    else if(u.k==="isee"){c.det="ISEE non dichiarato nel profilo";}
+    checks.push(c);
+  });
+  var o=0,m=0,v=0;checks.forEach(function(c){if(c.res==="ok")o++;else if(c.res==="miss")m++;else v++;});
+  return {checks:checks,ok:o,miss:m,ver:v,total:checks.length};
+}
+function fitSummary(f){return f.ok+" soddisfatti, "+f.ver+" da verificare, "+f.miss+" mancanti";}
+function meter(f){var t=f.total||1;return '<div class="meter" role="img" aria-label="'+esc(fitSummary(f))+'"><i class="m-ok" style="width:'+(f.ok/t*100)+'%"></i><i class="m-ver" style="width:'+(f.ver/t*100)+'%"></i><i class="m-bad" style="width:'+(f.miss/t*100)+'%"></i></div>';}
+function resPill(res){return res==="ok"?'<span class="pill ok">Soddisfatto</span>':(res==="miss"?'<span class="pill bad">Mancante</span>':'<span class="pill warn">Da verificare</span>');}
+
+/* ===================== STATE ===================== */
+var state={view:"home",q:"",f:{benef:[],act:[],aid:[],reg:"",status:"",dl:"",evid:false,fp:false,tz:false,lowcap:false,fit:false,cat:""},sort:"rel",cmp:[],fav:[],detail:null,sim:{preset:"custom",inv:100000,fp:0,loan:80,years:10,rate:0,sudfp:false}};
+try{var sf=localStorage.getItem("fri_fav");if(sf){var pf=JSON.parse(sf);if(Array.isArray(pf))state.fav=pf.filter(function(i){return byId(i);});}}catch(e){}
+function saveFav(){try{localStorage.setItem("fri_fav",JSON.stringify(state.fav));}catch(e){}}
+function toast(t){var el=document.getElementById("toast");el.textContent=t;el.hidden=false;clearTimeout(toast.t);toast.t=setTimeout(function(){el.hidden=true;},2400);}
+
+/* ===================== SEARCH ===================== */
+var SYN={solare:"fotovoltaico",pannelli:"fotovoltaico",fv:"fotovoltaico",pv:"fotovoltaico",agrivoltaici:"agrivoltaico",giovani:"under35",youth:"under35",startup:"startup",imprese:"impresa",macchinari:"beni strumentali",tecnologia:"digitale"};
+function haystack(r){return (r.name+" "+r.body+" "+r.plain+" "+r.kw+" "+r.cats.map(function(c){return catName(c);}).join(" ")+" "+r.aid.map(function(a){return AID[a];}).join(" ")+" "+r.sectors.map(function(s){return ACT[s];}).join(" ")+" "+r.benef.map(function(b){return BEN[b];}).join(" ")).toLowerCase();}
+function catName(id){for(var i=0;i<CATS.length;i++)if(CATS[i].id===id)return CATS[i].n;return id;}
+function score(r,q){
+  if(!q.trim())return 1;
+  var h=haystack(r),terms=q.toLowerCase().split(/\s+/).filter(Boolean),s=0;
+  for(var i=0;i<terms.length;i++){
+    var t=terms[i],alt=SYN[t];
+    if(h.indexOf(t)>=0)s+=1; else if(alt&&h.indexOf(alt)>=0)s+=0.8; else return 0;
+    if(r.name.toLowerCase().indexOf(t)>=0)s+=1;
+  }
+  return s;
+}
+function applyFilters(){
+  var f=state.f,out=[];
+  DB.forEach(function(r){
+    var sc=score(r,state.q); if(!sc)return;
+    if(f.cat && r.cats.indexOf(f.cat)<0)return;
+    if(f.benef.length && !f.benef.some(function(b){return r.benef.indexOf(b)>=0;}))return;
+    if(f.act.length && !f.act.some(function(a){return r.sectors.indexOf(a)>=0;}))return;
+    if(f.aid.length && !f.aid.some(function(a){return r.aid.indexOf(a)>=0;}))return;
+    if(f.reg && !regionApplies(r,f.reg))return;
+    if(f.status && effStatus(r)!==f.status)return;
+    if(f.dl){ if(!r.close)return; var d=daysTo(r.close); if(d<0||d>Number(f.dl))return; }
+    if(f.evid && r.evidence!=="ufficiale")return;
+    if(f.fp && r.aid.indexOf("fp")<0 && r.aid.indexOf("vou")<0)return;
+    if(f.tz && r.aid.indexOf("tz")<0)return;
+    if(f.lowcap && r.lowCapital!==true)return;
+    var fit=evalFit(r);
+    if(f.fit && fit.miss>0)return;
+    out.push({r:r,sc:sc,fit:fit});
+  });
+  var rank={APERTO:0,ANNUNCIATA:1,DA_VERIFICARE:2,ATTESA_EDIZIONE:3,CHIUSO:4};
+  out.sort(function(a,b){
+    if(state.sort==="name")return a.r.name.localeCompare(b.r.name,"it");
+    if(state.sort==="dl"){var da=a.r.close?daysTo(a.r.close):99999,db=b.r.close?daysTo(b.r.close):99999;return da-db;}
+    if(state.sort==="ver"){return (b.r.lastVerified||"").localeCompare(a.r.lastVerified||"");}
+    if(b.sc!==a.sc&&state.q.trim())return b.sc-a.sc;
+    var ra=rank[effStatus(a.r)],rb=rank[effStatus(b.r)]; if(ra!==rb)return ra-rb;
+    if(a.fit.miss!==b.fit.miss)return a.fit.miss-b.fit.miss;
+    if(a.r.evidence!==b.r.evidence)return a.r.evidence==="ufficiale"?-1:1;
+    return a.fit.ver-b.fit.ver;
+  });
+  return out;
+}
+
+/* ===================== VIEWS ===================== */
+var NAV=[["home","Home"],["search","Cerca misure"],["compare","Confronta"],["sim","Simulatore"],["fav","Preferiti e scadenze"],["info","Metodo e limiti"]];
+function renderTabs(){
+  var h="";
+  NAV.forEach(function(n){
+    var extra="";
+    if(n[0]==="compare")extra='<span class="badge-n">'+state.cmp.length+'</span>';
+    if(n[0]==="fav")extra='<span class="badge-n">'+state.fav.length+'</span>';
+    h+='<button data-go="'+n[0]+'"'+(state.view===n[0]||(n[0]==="search"&&state.view==="detail")?' aria-current="page"':'')+'>'+n[1]+extra+'</button>';
+  });
+  h+='<button id="themebtn" class="btn small" data-act="theme" aria-label="Cambia tema chiaro o scuro">Tema</button>';
+  document.getElementById("tabs").innerHTML=h;
+}
+function card(x){
+  var r=x.r,es=effStatus(r),fit=x.fit,isF=state.fav.indexOf(r.id)>=0,inC=state.cmp.indexOf(r.id)>=0;
+  var dl=r.close?(' · Scadenza '+fmt(r.close)+(r.evidence!=="ufficiale"?' (non verificata)':'')):'';
+  return '<article class="card" aria-label="'+esc(r.name)+'">'+
+   '<h3><button class="link" data-open="'+r.id+'">'+esc(r.name)+'</button></h3><div>'+stPill(es)+'</div>'+
+   '<div class="meta"><span>'+esc(r.body)+'</span><span>'+esc(r.level)+'</span><span>'+r.aid.map(function(a){return esc(AID[a]);}).join(", ")+'</span>'+
+   '<span>'+(r.evidence==="ufficiale"?'Fonte ufficiale':'Solo fonte secondaria')+'</span><span>'+(r.lastVerified?'Verificata il '+fmt(r.lastVerified):'Mai verificata su fonte ufficiale')+esc(dl)+'</span></div>'+
+   '<p class="desc">'+esc(r.plain)+'</p>'+
+   '<div class="meta" style="grid-column:1/-1"><span>Compatibilità con il profilo: '+esc(fitSummary(fit))+'</span></div>'+
+   '<div class="acts"><button class="btn small" data-open="'+r.id+'">Dettaglio</button>'+
+   '<button class="btn small" data-fav="'+r.id+'" aria-pressed="'+isF+'">'+(isF?'Nei preferiti':'Aggiungi ai preferiti')+'</button>'+
+   '<label><input type="checkbox" data-cmp="'+r.id+'"'+(inC?' checked':'')+'> Confronta</label></div></article>';
+}
+function countFor(fn){return DB.filter(fn).length;}
+function home(){
+  var tot=DB.length;
+  var off=countFor(function(r){return r.evidence==="ufficiale";});
+  var open=countFor(function(r){return effStatus(r)==="APERTO";});
+  var ann=countFor(function(r){return r.status==="ANNUNCIATA";});
+  var att=countFor(function(r){return r.status==="ATTESA_EDIZIONE";});
+  var imm=countFor(function(r){if(!r.close)return false;var d=daysTo(r.close);return d>=0&&d<=45;});
+  var comp=countFor(function(r){var f=evalFit(r);return f.miss===0;});
+  var anyStale=DB.some(function(r){return r.status==="APERTO"&&r.evidence==="ufficiale"&&stale(r);});
+  var top=DB.map(function(r){return {r:r,fit:evalFit(r),sc:1};}).filter(function(x){return x.fit.miss===0;});
+  var rank={APERTO:0,ANNUNCIATA:1,DA_VERIFICARE:2,ATTESA_EDIZIONE:3,CHIUSO:4};
+  top.sort(function(a,b){var ra=rank[effStatus(a.r)],rb=rank[effStatus(b.r)];if(ra!==rb)return ra-rb;if(a.r.evidence!==b.r.evidence)return a.r.evidence==="ufficiale"?-1:1;return a.fit.ver-b.fit.ver;});
+  top=top.slice(0,5);
+  var latest=DB.filter(function(r){return r.lastVerified;}).sort(function(a,b){return b.lastVerified.localeCompare(a.lastVerified);}).slice(0,6);
+  var h='<section class="hero"><h1>Cosa vuoi finanziare?</h1><p class="lead">Motore di ricerca personale su incentivi italiani ed europei. Il database contiene '+tot+' misure, ma solo '+off+' hanno una pagina ufficiale consultata: le altre sono segnalazioni da verificare prima di agire.</p>'+
+   '<form class="searchrow" id="homeSearch" role="search"><label for="hq" class="sr" style="position:absolute;left:-9999px">Cosa vuoi finanziare?</label><input id="hq" type="search" placeholder="Es. fotovoltaico, agrivoltaico, startup, macchinari" value="'+esc(state.q)+'"><button class="btn primary" type="submit">Cerca</button></form></section>';
+  if(anyStale)h+='<div class="banner"><b>Verifica scaduta.</b> Alcune misure aperte non sono state riverificate da oltre '+STALE_DAYS+' giorni: sono mostrate come «Da verificare».</div>';
+  h+='<section aria-label="Numeri del database"><div class="counters">'+
+   '<button class="counter" data-quick="all"><span class="n">'+tot+'</span><span class="l">Misure nel database</span></button>'+
+   '<button class="counter" data-quick="evid"><span class="n">'+off+'</span><span class="l">Con fonte ufficiale consultata</span></button>'+
+   '<button class="counter" data-quick="open"><span class="n">'+open+'</span><span class="l">Aperte e verificate di recente</span></button>'+
+   '<button class="counter" data-quick="ann"><span class="n">'+ann+'</span><span class="l">In apertura annunciata</span></button>'+
+   '<button class="counter" data-quick="att"><span class="n">'+att+'</span><span class="l">In attesa di nuova edizione</span></button>'+
+   '<button class="counter" data-quick="imm"><span class="n">'+imm+'</span><span class="l">Scadenze entro 45 giorni (anche non verificate)</span></button>'+
+   '<button class="counter" data-quick="fit"><span class="n">'+comp+'</span><span class="l">Senza requisiti mancanti per il tuo profilo</span></button></div>'+
+   '<p style="color:var(--muted);font-size:.85rem;margin-top:8px">Dati aggiornati al '+fmt(DATA_DATE)+'. Non è un servizio in tempo reale. I contatori si calcolano dal database e dal profilo qui sotto.</p></section>';
+  h+=profilePanel();
+  h+='<section><div class="sec-h"><h2>Categorie</h2><small>25 aree. Il numero indica le misure nel database.</small></div><div class="cats">';
+  CATS.forEach(function(c){var n=countFor(function(r){return r.cats.indexOf(c.id)>=0;});h+='<button class="cat'+(n?'':' zero')+'" data-cat="'+c.id+'"><span>'+esc(c.n)+'</span><span class="c">'+n+'</span></button>';});
+  h+='</div></section>';
+  h+='<div class="cols2"><section><div class="sec-h"><h2>Più vicine al tuo profilo</h2><small>Ordine: stato, nessun requisito mancante, fonte ufficiale, meno punti da verificare</small></div><div class="list">';
+  top.forEach(function(x){h+=card(x);});
+  h+='</div></section><section><div class="sec-h"><h2>Ultimi aggiornamenti verificati</h2></div><div class="list">';
+  latest.forEach(function(r){h+='<div class="card"><h3><button class="link" data-open="'+r.id+'">'+esc(r.name)+'</button></h3><div>'+stPill(effStatus(r))+'</div><div class="meta"><span>Verificata il '+fmt(r.lastVerified)+'</span><span>'+esc(r.body)+'</span></div></div>';});
+  h+='</div></section></div>';
+  return h;
+}
+function profilePanel(){
+  var p=profile;
+  function opt(v,l,cur){return '<option value="'+v+'"'+(cur===v?' selected':'')+'>'+l+'</option>';}
+  return '<section class="panel" aria-label="Profilo"><div class="sec-h"><h3>Il tuo profilo</h3><small>Usato solo per la compatibilità. Lascia «Non dichiarato» quando non sai: non viene mai dedotto.</small></div><div class="formgrid">'+
+   '<label class="field"><span>Età</span><input id="p-age" type="number" min="14" max="99" value="'+esc(p.age)+'"></label>'+
+   '<label class="field"><span>Regione</span><select id="p-region">'+opt("nd","Non dichiarata",p.region)+REGIONS.map(function(x){return opt(x,x,p.region);}).join("")+'</select></label>'+
+   '<label class="field"><span>Condizione occupazionale</span><select id="p-emp">'+opt("nd","Non dichiarata",p.employment)+opt("inoc","Inattivo, inoccupato o disoccupato",p.employment)+opt("gol","Disoccupato programma GOL",p.employment)+opt("wp","Working poor",p.employment)+opt("occ","Occupato",p.employment)+'</select></label>'+
+   '<label class="field"><span>Impresa esistente</span><select id="p-comp">'+opt("nd","Non dichiarato",p.company)+opt("no","No, da costituire",p.company)+opt("si","Sì",p.company)+'</select></label>'+
+   '<label class="field"><span>Azienda agricola</span><select id="p-farm">'+opt("nd","Non dichiarato",p.farm)+opt("no","No",p.farm)+opt("si","Sì",p.farm)+'</select></label>'+
+   '<label class="field"><span>Attività prevista</span><select id="p-act">'+opt("nd","Non definita",p.activity)+opt("fv","Fotovoltaico / energia",p.activity)+opt("agrivolt","Agrivoltaico / agricola",p.activity)+opt("tech","Tecnologia / digitale",p.activity)+opt("beni","Beni strumentali / manifattura",p.activity)+'</select></label>'+
+   '</div></section>';
+}
+function filtersUI(){
+  var f=state.f;
+  function grp(name,key,map){var h='<fieldset><legend>'+name+'</legend>';Object.keys(map).forEach(function(k){h+='<label><input type="checkbox" data-fk="'+key+'" value="'+k+'"'+(f[key].indexOf(k)>=0?' checked':'')+'> '+esc(map[k])+'</label>';});return h+'</fieldset>';}
+  var h='<div class="filters panel" id="filters"><label class="field"><span>Ricerca libera</span><input id="s-q" type="search" value="'+esc(state.q)+'" placeholder="Parola chiave"></label>';
+  h+=grp("Beneficiario","benef",BEN)+grp("Attività","act",ACT)+grp("Tipo di aiuto","aid",AID);
+  h+='<fieldset><legend>Economia</legend><label><input type="checkbox" data-fb="fp"'+(f.fp?' checked':'')+'> Con fondo perduto o voucher</label><label><input type="checkbox" data-fb="tz"'+(f.tz?' checked':'')+'> Con tasso zero</label><label><input type="checkbox" data-fb="lowcap"'+(f.lowcap?' checked':'')+'> Basso capitale proprio (documentato)</label></fieldset>';
+  h+='<fieldset><legend>Geografia</legend><select id="s-reg" aria-label="Regione"><option value="">Qualsiasi</option>'+REGIONS.map(function(x){return '<option'+(f.reg===x?' selected':'')+'>'+x+'</option>';}).join("")+'<option value="UE"'+(f.reg==="UE"?' selected':'')+'>Solo bandi europei</option></select></fieldset>';
+  h+='<fieldset><legend>Tempo</legend><label class="field"><span>Stato</span><select id="s-st"><option value="">Qualsiasi</option>'+Object.keys(STATUS).map(function(k){return '<option value="'+k+'"'+(f.status===k?' selected':'')+'>'+STATUS[k].l+'</option>';}).join("")+'</select></label><label class="field"><span>Scadenza entro</span><select id="s-dl"><option value="">Qualsiasi</option>'+[30,45,60,90,180].map(function(d){return '<option value="'+d+'"'+(String(f.dl)===String(d)?' selected':'')+'>'+d+' giorni</option>';}).join("")+'</select></label></fieldset>';
+  h+='<fieldset><legend>Altro</legend><label><input type="checkbox" data-fb="evid"'+(f.evid?' checked':'')+'> Solo fonte ufficiale consultata</label><label><input type="checkbox" data-fb="fit"'+(f.fit?' checked':'')+'> Nascondi se manca un requisito</label></fieldset>';
+  h+='<button class="btn" data-act="reset">Azzera filtri</button></div>';
+  return h;
+}
+function chipsHTML(){
+  var f=state.f,c=[];
+  if(state.q.trim())c.push(["q","Testo: "+state.q]);
+  if(f.cat)c.push(["cat","Categoria: "+catName(f.cat)]);
+  f.benef.forEach(function(k){c.push(["benef:"+k,BEN[k]]);});
+  f.act.forEach(function(k){c.push(["act:"+k,ACT[k]]);});
+  f.aid.forEach(function(k){c.push(["aid:"+k,AID[k]]);});
+  if(f.reg)c.push(["reg","Regione: "+(f.reg==="UE"?"UE":f.reg)]);
+  if(f.status)c.push(["status","Stato: "+STATUS[f.status].l]);
+  if(f.dl)c.push(["dl","Scadenza entro "+f.dl+" giorni"]);
+  if(f.evid)c.push(["evid","Solo fonte ufficiale"]);
+  if(f.fp)c.push(["fp","Fondo perduto o voucher"]);
+  if(f.tz)c.push(["tz","Tasso zero"]);
+  if(f.lowcap)c.push(["lowcap","Basso capitale proprio"]);
+  if(f.fit)c.push(["fit","Nessun requisito mancante"]);
+  if(!c.length)return '<span style="color:var(--muted);font-size:.88rem">Nessun filtro attivo</span>';
+  return c.map(function(x){return '<span class="chip">'+esc(x[1])+'<button data-rm="'+esc(x[0])+'" aria-label="Rimuovi filtro '+esc(x[1])+'">×</button></span>';}).join("");
+}
+function resultsHTML(){
+  var res=applyFilters();
+  var h='<div class="sec-h"><h2>'+res.length+' '+(res.length===1?'misura':'misure')+'</h2><label class="field" style="flex-direction:row;align-items:center;gap:8px"><span>Ordina per</span><select id="s-sort" style="width:auto"><option value="rel"'+(state.sort==="rel"?" selected":"")+'>Rilevanza e stato</option><option value="dl"'+(state.sort==="dl"?" selected":"")+'>Scadenza</option><option value="ver"'+(state.sort==="ver"?" selected":"")+'>Ultima verifica</option><option value="name"'+(state.sort==="name"?" selected":"")+'>Nome</option></select></label></div>';
+  if(!res.length)h+='<div class="empty">Nessuna misura corrisponde ai filtri. Rimuovi un filtro con la × oppure azzera. Un database con poche voci verificate può non coprire tutte le ricerche.</div>';
+  else{h+='<div class="list">';res.forEach(function(x){h+=card(x);});h+='</div>';}
+  h+='<div class="panel" style="margin-top:12px"><div class="sec-h"><h3>Esporta questi risultati</h3><small>Il browser non permette di scaricare file da qui: puoi copiare il testo.</small></div><div class="searchrow"><button class="btn small" data-exp="csv">Copia CSV</button><button class="btn small" data-exp="json">Copia JSON</button></div><textarea class="exp" id="exp-out" readonly hidden aria-label="Testo esportato"></textarea></div>';
+  return h;
+}
+function searchView(){
+  return '<div class="layout-s">'+filtersUI()+'<div style="min-width:0;display:flex;flex-direction:column;gap:12px"><div class="chips" id="chips" aria-label="Filtri attivi">'+chipsHTML()+'</div><div id="results">'+resultsHTML()+'</div></div></div>';
+}
+function refreshResults(){document.getElementById("chips").innerHTML=chipsHTML();document.getElementById("results").innerHTML=resultsHTML();renderTabs();}
+
+function dd(label,val,nv){return '<dt>'+label+'</dt><dd>'+(nv?'<span class="nv">'+esc(val)+'</span>':esc(val))+'</dd>';}
+function detail(){
+  var r=byId(state.detail); if(!r)return '<div class="empty">Misura non trovata.</div>';
+  var es=effStatus(r),fit=evalFit(r),isF=state.fav.indexOf(r.id)>=0;
+  var verTxt=r.lastVerified?fmt(r.lastVerified)+(stale(r)?" (oltre "+STALE_DAYS+" giorni)":""):"Nessuna verifica su fonte ufficiale";
+  var h='<div><button class="btn small" data-go="search">← Torna ai risultati</button></div>';
+  h+='<div style="display:flex;flex-wrap:wrap;gap:10px;align-items:center"><h2 style="flex:1;min-width:240px">'+esc(r.name)+'</h2>'+stPill(es)+'<button class="btn small" data-fav="'+r.id+'" aria-pressed="'+isF+'">'+(isF?'Nei preferiti':'Aggiungi ai preferiti')+'</button><button class="btn small" data-cmpadd="'+r.id+'">Aggiungi al confronto</button></div>';
+  if(r.evidence!=="ufficiale")h+='<div class="banner"><b>Dati non confermati.</b> Questa scheda si basa su fonti secondarie e non su una pagina ufficiale letta. I campi non verificati sono segnati in corsivo.</div>';
+  if(r.status==="APERTO"&&effStatus(r)!=="APERTO")h+='<div class="banner">La verifica ha più di '+STALE_DAYS+' giorni: lo stato è mostrato come «Da verificare».</div>';
+  h+='<div class="detail"><div style="display:flex;flex-direction:column;gap:12px;min-width:0">';
+  h+='<section class="dsec"><h3><span class="k">A</span>Identità</h3><dl class="kv">'+dd("Identificativo",r.id)+dd("Ente",r.body,r.body==="non verificato")+dd("Livello",r.level)+dd("Edizione",r.edition)+dd("Territorio",r.regions.join(", "))+dd("Settori",r.sectors.map(function(s){return ACT[s];}).join(", "))+dd("Beneficiari",r.benef.map(function(b){return BEN[b];}).join(", "))+dd("Fonte dei fondi",r.fundingSource,r.fundingSource.indexOf("non verificato")>=0)+'</dl></section>';
+  h+='<section class="dsec"><h3><span class="k">B</span>In parole semplici</h3><p>'+esc(r.plain)+'</p></section>';
+  h+='<section class="dsec"><h3><span class="k">C</span>Quanto vale</h3><dl class="kv">'+dd("Tipo di aiuto",r.aid.map(function(a){return AID[a];}).join(", "))+dd("Importi e intensità",r.money,r.money.indexOf("Non verificato")===0)+dd("Intensità massima nota",r.intensity!=null?r.intensity+"%":"non verificato",r.intensity==null)+dd("Importo massimo noto",r.maxEur!=null?eur(r.maxEur):"non verificato",r.maxEur==null)+dd("Cumulabilità",r.cumul,r.cumul==="non verificato")+dd("De minimis",r.deMinimis,r.deMinimis.indexOf("non verificato")>=0)+'</dl><p style="font-size:.85rem;color:var(--muted)">Distinguere sempre: fondo perduto (non si restituisce), finanziamento (si restituisce), garanzia (copre il rischio della banca), credito d\'imposta (riduce le imposte), equity (si cede una quota).</p></section>';
+  h+='<section class="dsec"><h3><span class="k">D</span>Requisiti</h3><ul>'+r.reqs.map(function(x){return '<li>'+(x.indexOf("non verificat")>=0||x.indexOf("non indicat")>=0?'<span class="nv">'+esc(x)+'</span>':esc(x))+'</li>';}).join("")+'</ul><p style="font-size:.85rem;color:var(--muted)">L\'età da sola non basta: controlla residenza, sede, dimensione d\'impresa, settore e condizione lavorativa.</p></section>';
+  h+='<section class="dsec"><h3><span class="k">E</span>Spese ammissibili</h3><p>'+(r.expenses.indexOf("Non verific")===0||r.expenses.indexOf("Non indicat")===0?'<span class="nv">'+esc(r.expenses)+'</span>':esc(r.expenses))+'</p></section>';
+  h+='<section class="dsec"><h3><span class="k">F</span>Procedura</h3><p>'+(r.procedure.indexOf("Non verific")===0?'<span class="nv">'+esc(r.procedure)+'</span>':esc(r.procedure))+'</p></section>';
+  h+='<section class="dsec"><h3><span class="k">G</span>Scadenze e stato</h3><dl class="kv">'+dd("Stato mostrato",STATUS[es].l)+dd("Stato dichiarato",r.reported)+dd("Apertura",r.open?fmt(r.open):"non indicata",!r.open)+dd("Chiusura",r.close?fmt(r.close)+(r.evidence!=="ufficiale"?" (non verificata)":""):"non indicata",!r.close)+dd("Note",r.closeNote)+dd("Ultima verifica",verTxt,!r.lastVerified)+'</dl></section>';
+  h+='<section class="dsec"><h3><span class="k">H</span>Esempio economico ipotetico</h3>'+example(r)+'</section>';
+  h+='<section class="dsec"><h3><span class="k">I</span>Valutazione pratica</h3><div class="cols2" style="gap:12px"><div><b>Punti a favore</b><ul>'+r.eval.pro.map(function(x){return '<li>'+esc(x)+'</li>';}).join("")+'</ul></div><div><b>Punti critici</b><ul>'+r.eval.con.map(function(x){return '<li>'+esc(x)+'</li>';}).join("")+'</ul></div></div><p style="font-size:.85rem;color:var(--muted)">Valutazione orientativa, non consulenza fiscale o legale. Chiedi conferma a un professionista abilitato.</p></section>';
+  h+='<section class="dsec"><h3><span class="k">J</span>Fonti</h3><ul>'+r.urls.map(function(u){return '<li><a href="'+esc(u.url)+'" target="_blank" rel="noopener noreferrer">'+esc(u.label)+'</a> <span class="tag">'+(u.type==="ufficiale"?"ufficiale":"secondaria")+'</span> <span style="color:var(--muted);font-size:.85rem">'+(u.consulted?'consultata il '+fmt(u.consulted):'non consultata in questa sessione')+(u.opened?'':'; link non verificato')+'</span></li>';}).join("")+'</ul></section>';
+  h+='</div><aside class="dsec" style="position:sticky;top:calc(70px + env(safe-area-inset-top,0px))"><h3>Compatibilità col tuo profilo</h3>'+meter(fit)+'<p style="font-size:.9rem"><b>'+esc(fitSummary(fit))+'</b></p><ul class="checks">'+fit.checks.map(function(c){return '<li>'+resPill(c.res)+'<span><b>'+esc(c.txt)+'</b><br><span style="color:var(--muted)">'+esc(c.det)+'</span></span></li>';}).join("")+'</ul><p style="font-size:.8rem;color:var(--muted)">Indicatore basato solo sui criteri elencati. Non è una garanzia di ammissione: la decisione spetta all\'ente.</p></aside></div>';
+  return h;
+}
+function example(r){
+  var e=r.example; if(!e)return '<p class="nv">Esempio non disponibile: i dati economici non sono stati verificati.</p>';
+  var inv=e.inv,t='';
+  if(e.kind==="fp"){var pct=inv<=120000?75:70,fp=inv*pct/100;t='<p>Programma di investimento di <b>'+eur(inv)+'</b> (percentuale prevista per questa fascia: '+pct+'%).</p><ul><li>Fondo perduto: <b>'+eur(fp)+'</b></li><li>Quota restante: <b>'+eur(inv-fp)+'</b>. Modalità di copertura: <span class="nv">non indicata nella pagina consultata</span></li></ul>';}
+  else if(e.kind==="loan"){var L=inv*e.pct/100;t='<p>Progetto di <b>'+eur(inv)+'</b> con finanziamento a tasso zero al <b>'+e.pct+'%</b> (massimo previsto), restituito in <b>'+e.years+' anni</b>.</p><ul><li>Finanziamento: <b>'+eur(L)+'</b></li><li>Quota non coperta: <b>'+eur(inv-L)+'</b></li><li>Rata media teorica: <b>'+eur2(L/(e.years*12))+'</b> al mese, senza interessi e senza preammortamento (piano reale <span class="nv">non verificato</span>)</li></ul>';}
+  else if(e.kind==="ssi"){var L2=inv*0.8,FP=L2*0.3;t='<p>Programma di <b>'+eur(inv)+'</b> con finanziamento all\'80% (startup non maggiorata).</p><ul><li>Finanziamento a tasso zero: <b>'+eur(L2)+'</b></li><li>Se si applica il 30% a fondo perduto al finanziamento (ipotesi, base di calcolo <span class="nv">non specificata nella pagina</span>): <b>'+eur(FP)+'</b>, quindi da restituire <b>'+eur(L2-FP)+'</b></li><li>Quota non coperta: <b>'+eur(inv-L2)+'</b></li></ul>';}
+  return t+'<p style="font-size:.82rem;color:var(--muted)">Calcolo illustrativo sulle percentuali lette nella pagina ufficiale. Non considera spese non ammissibili, valutazione del progetto né eventuali altre condizioni.</p>';
+}
+function cell(r,k,fit){
+  var es=effStatus(r);
+  switch(k){
+   case"ente":return esc(r.body);
+   case"tipo":return r.aid.map(function(a){return esc(AID[a]);}).join(", ");
+   case"int":return r.intensity!=null?r.intensity+"%":'<span class="nv">non verificata</span>';
+   case"max":return r.maxEur!=null?eur(r.maxEur):'<span class="nv">non verificato</span>';
+   case"ben":return r.benef.map(function(b){return esc(BEN[b]);}).join(", ");
+   case"reg":return esc(r.regions.join(", "));
+   case"st":return stPill(es);
+   case"sca":return r.close?fmt(r.close)+(r.evidence!=="ufficiale"?" (non verificata)":""):'<span class="nv">non indicata</span>';
+   case"ver":return r.lastVerified?fmt(r.lastVerified):'<span class="nv">mai verificata</span>';
+   case"cum":return r.cumul==="non verificato"?'<span class="nv">non verificata</span>':esc(r.cumul);
+   case"dm":return r.deMinimis.indexOf("non verificato")>=0||r.deMinimis.indexOf("non indicato")>=0?'<span class="nv">'+esc(r.deMinimis)+'</span>':esc(r.deMinimis);
+   case"fit":var g=function(res){return fit.checks.filter(function(c){return c.res===res;}).map(function(c){return '<li>'+esc(c.txt)+'</li>';}).join("");};
+     return meter(fit)+'<p><b>'+esc(fitSummary(fit))+'</b></p>'+(g("ok")?'Soddisfatti<ul>'+g("ok")+'</ul>':'')+(g("ver")?'Da verificare<ul>'+g("ver")+'</ul>':'')+(g("miss")?'Mancanti<ul>'+g("miss")+'</ul>':'');
+  }
+  return "";
+}
+function compareView(){
+  if(state.cmp.length<2)return '<h2>Confronta misure</h2><div class="empty">Seleziona almeno 2 misure con la casella «Confronta» nei risultati. Selezionate ora: '+state.cmp.length+'.<br><br><button class="btn" data-go="search">Vai alla ricerca</button></div>';
+  var rs=state.cmp.map(byId),fits=rs.map(evalFit);
+  var rows=[["Ente","ente"],["Tipo di aiuto","tipo"],["Intensità massima","int"],["Importo massimo","max"],["Beneficiari","ben"],["Territorio","reg"],["Stato","st"],["Scadenza","sca"],["Ultima verifica","ver"],["Cumulabilità","cum"],["De minimis","dm"],["Compatibilità col profilo","fit"]];
+  var h='<div class="sec-h"><h2>Confronto di '+rs.length+' misure</h2><button class="btn small" data-act="clearcmp">Svuota confronto</button></div><div class="twrap"><table><thead><tr><th scope="col"></th>'+rs.map(function(r){return '<th scope="col"><button class="link" data-open="'+r.id+'">'+esc(r.name)+'</button><br><button class="btn small" data-cmpdel="'+r.id+'" style="margin-top:6px">Rimuovi</button></th>';}).join("")+'</tr></thead><tbody>';
+  rows.forEach(function(row){h+='<tr><th scope="row">'+row[0]+'</th>'+rs.map(function(r,i){return '<td>'+cell(r,row[1],fits[i])+'</td>';}).join("")+'</tr>';});
+  h+='</tbody></table></div><p style="color:var(--muted);font-size:.85rem">La compatibilità conta solo i criteri espliciti sopra. Non indica la probabilità di essere ammessi.</p>';
+  return h;
+}
+function pmt(P,rate,years){var n=years*12;if(!rate)return P/n;var i=rate/100/12;return P*i/(1-Math.pow(1+i,-n));}
+function simCalc(s){
+  var inv=Math.max(0,Number(s.inv)||0),fp=0,loan=0,notes=[];
+  if(s.preset==="ras"){var capped=Math.min(inv,200000);if(inv>200000)notes.push("Importo oltre 200.000 euro: il massimo indicato dalla pagina è 200.000; il calcolo usa 200.000 come base.");var pct=capped<=120000?75:70;fp=capped*pct/100;loan=0;notes.push("Fondo perduto "+pct+"% sulla base ammissibile; la copertura della quota restante non è indicata nella pagina.");}
+  else if(s.preset==="on"){loan=inv*0.9;notes.push("Finanziamento al 90% a tasso zero, 10 anni (valori massimi indicati dalla pagina). Il fondo perduto non è più previsto dal 01/07/2026.");}
+  else if(s.preset==="ssi"){loan=inv*0.8;if(s.sudfp){fp=loan*0.3;notes.push("Ipotesi: 30% a fondo perduto applicato al finanziamento. La base di calcolo non è specificata nella pagina: verifica sul bando.");}notes.push("Durata del rimborso inserita da te: non indicata nella pagina.");}
+  else{fp=inv*(Number(s.fp)||0)/100;loan=inv*(Number(s.loan)||0)/100;}
+  if(fp+loan>inv){var k=inv/(fp+loan);fp*=k;loan*=k;notes.push("Contributo e finanziamento superano la spesa: ridotti in proporzione.");}
+  var repay=loan-(s.preset==="ssi"?fp:0);
+  var rate=s.preset==="on"||s.preset==="ras"||s.preset==="ssi"?0:Number(s.rate)||0;
+  var years=s.preset==="on"?10:Math.max(1,Number(s.years)||1);
+  var base=s.preset==="ssi"?loan-fp:loan;
+  var m=base>0?pmt(base,rate,years):0;
+  var own=inv-fp-loan;
+  return {inv:inv,fp:fp,loan:loan,base:base,own:own,m:m,tot:m*years*12,interest:m*years*12-base,notes:notes,years:years,rate:rate};
+}
+function simView(){
+  var s=state.sim,c=simCalc(s);
+  function opt(v,l){return '<option value="'+v+'"'+(s.preset===v?' selected':'')+'>'+l+'</option>';}
+  var custom=s.preset==="custom";
+  var h='<h2>Simulatore economico</h2><div class="panel"><div class="formgrid">'+
+   '<label class="field"><span>Schema</span><select id="m-preset">'+opt("custom","Personalizzato")+opt("ras","Resto al Sud 2.0 (percentuali lette il 20/10/2026)")+opt("on","ON, solo finanziamento (valori massimi)")+opt("ssi","Smart&Start base (80%)")+'</select></label>'+
+   '<label class="field"><span>Spesa totale del progetto (€)</span><input id="m-inv" type="number" min="0" step="1000" value="'+esc(s.inv)+'"></label>'+
+   (custom?'<label class="field"><span>Fondo perduto (% della spesa)</span><input id="m-fp" type="number" min="0" max="100" value="'+esc(s.fp)+'"></label><label class="field"><span>Finanziamento agevolato (% della spesa)</span><input id="m-loan" type="number" min="0" max="100" value="'+esc(s.loan)+'"></label><label class="field"><span>Tasso annuo (%)</span><input id="m-rate" type="number" min="0" step="0.1" value="'+esc(s.rate)+'"></label>':'')+
+   ((custom||s.preset==="ssi")?'<label class="field"><span>Durata rimborso (anni)</span><input id="m-years" type="number" min="1" max="30" value="'+esc(s.years)+'"></label>':'')+
+   (s.preset==="ssi"?'<label class="field"><span>Ipotesi fondo perduto</span><label style="display:flex;gap:8px;align-items:center"><input id="m-sudfp" type="checkbox"'+(s.sudfp?' checked':'')+'> Applica 30% al finanziamento</label></label>':'')+
+   '</div></div>';
+  h+='<div class="out" aria-live="polite"><div><b>'+eur(c.inv)+'</b><span>Spesa del progetto</span></div><div><b>'+eur(c.fp)+'</b><span>Fondo perduto (non si restituisce)</span></div><div><b>'+eur(c.loan)+'</b><span>Finanziamento agevolato lordo</span></div><div><b>'+eur(c.own)+'</b><span>Quota da coprire con altre risorse</span></div><div><b>'+eur2(c.m)+'</b><span>Rata mensile media su '+c.years+' anni</span></div><div><b>'+eur(c.interest)+'</b><span>Interessi totali stimati</span></div></div>';
+  h+='<div class="panel"><h3>Ipotesi e limiti</h3><ul style="margin:8px 0 0;padding-left:20px"><li>Rimborso con rate mensili costanti e tasso fisso; nei finanziamenti agevolati reali le rate sono spesso semestrali e possono avere preammortamento.</li><li>Il calcolo non verifica le spese ammissibili né l\'esito della valutazione.</li><li>Ogni aiuto pubblico può contare nel limite de minimis (indicato come 300.000 euro in tre anni nel regime generale: da verificare con la norma in vigore). Controlla anche la cumulabilità tra misure.</li><li>Nessuna consulenza fiscale o legale.</li>'+c.notes.map(function(n){return '<li><b>'+esc(n)+'</b></li>';}).join("")+'</ul></div>';
+  return h;
+}
+function favView(){
+  var h='<h2>Preferiti e scadenze</h2><div class="banner"><b>Promemoria.</b> Questa pagina non invia notifiche: mostra solo l\'elenco ordinato per scadenza quando la apri. I preferiti restano nel browser di questo dispositivo, se il browser lo consente, e non si sincronizzano.</div>';
+  if(!state.fav.length)return h+'<div class="empty">Non hai preferiti. Usa «Aggiungi ai preferiti» su una misura.</div>';
+  var rs=state.fav.map(byId).filter(Boolean).sort(function(a,b){var da=a.close?daysTo(a.close):99999,db=b.close?daysTo(b.close):99999;return da-db;});
+  h+='<div class="list">';
+  rs.forEach(function(r){var d=r.close?daysTo(r.close):null;var dtxt=d==null?'<span class="nv">nessuna scadenza nota</span>':(d<0?'scaduta il '+fmt(r.close):(d===0?'scade oggi':'mancano '+d+' giorni ('+fmt(r.close)+')'))+(r.evidence!=="ufficiale"?' <span class="nv">(data non verificata)</span>':'');
+   h+='<div class="card"><h3><button class="link" data-open="'+r.id+'">'+esc(r.name)+'</button></h3><div>'+stPill(effStatus(r))+'</div><div class="meta"><span>Scadenza: '+dtxt+'</span><span>'+(r.lastVerified?'Verificata il '+fmt(r.lastVerified):'Mai verificata su fonte ufficiale')+'</span></div><div class="acts"><button class="btn small" data-fav="'+r.id+'">Rimuovi dai preferiti</button></div></div>';});
+  h+='</div><div class="panel"><div class="sec-h"><h3>Esporta i preferiti</h3></div><div class="searchrow"><button class="btn small" data-exp="favcsv">Copia CSV</button><button class="btn small" data-exp="favjson">Copia JSON</button></div><textarea class="exp" id="exp-out" readonly hidden aria-label="Testo esportato"></textarea></div>';
+  return h;
+}
+function infoView(){
+  var gaps=DB.filter(function(r){return r.evidence!=="ufficiale";}).length;
+  return '<h2>Metodo, fonti e limiti</h2>'+
+  '<section class="panel"><h3>Stato dei dati</h3><p style="margin-top:6px">Aggiornamento del '+fmt(DATA_DATE)+'. Misure totali: '+DB.length+'. Con pagina ufficiale consultata: '+(DB.length-gaps)+'. Solo fonti secondarie: '+gaps+'. Un campo mancante è scritto «non verificato», mai riempito per deduzione.</p></section>'+
+  '<section class="panel"><h3>Significato degli stati</h3><ul style="margin:8px 0 0;padding-left:20px"><li>'+stPill("APERTO")+' Fonte ufficiale letta e verifica entro '+STALE_DAYS+' giorni.</li><li>'+stPill("CHIUSO")+' Finestra conclusa secondo la fonte indicata.</li><li>'+stPill("ANNUNCIATA")+' Apertura comunicata con data futura.</li><li>'+stPill("ATTESA_EDIZIONE")+' Edizione conclusa, nuova edizione attesa ma non datata.</li><li>'+stPill("DA_VERIFICARE")+' Fonte non ufficiale, verifica scaduta o dati in conflitto.</li></ul></section>'+
+  '<section class="panel"><h3>Procedura di revisione periodica</h3><ol style="margin:8px 0 0;padding-left:20px"><li>Ogni 2 settimane riapri la pagina ufficiale di ogni misura con stato Aperto o Annunciata e aggiorna stato e data di verifica.</li><li>Ogni mese controlla i portali Invitalia, MIMIT, GSE, ISMEA, Regione Abruzzo e FiRA, Camera di commercio, Commissione europea per nuove edizioni.</li><li>Aggiungi una nuova edizione come record separato, con il suo identificativo, senza modificare la precedente.</li><li>Prima di inserire una misura cerca duplicati per nome, ente e edizione.</li><li>Per ogni campo importo, requisito e scadenza copia solo ciò che la fonte ufficiale riporta, altrimenti scrivi «non verificato».</li><li>Controlla cumulabilità e de minimis sul bando o sull\'avviso.</li></ol></section>'+
+  '<section class="panel"><h3>Cosa questa app non fa</h3><ul style="margin:8px 0 0;padding-left:20px"><li>Non è collegata a fonti in tempo reale: i dati sono quelli incorporati nella pagina alla data indicata.</li><li>Non invia notifiche o email: i promemoria sono un elenco ordinato per scadenza.</li><li>Non scarica file: l\'esportazione avviene copiando il testo.</li><li>I preferiti dipendono dalla memoria del browser e non seguono te tra dispositivi.</li><li>Non dà consulenza fiscale o legale e non garantisce l\'ammissione a nessuna misura.</li><li>Le pagine ufficiali di altre misure e le fonti secondarie non sono state riaperte per questa versione: i link con la dicitura «non verificato» possono essere cambiati.</li></ul></section>'+
+  '<section class="panel"><h3>Criteri della compatibilità</h3><p style="margin-top:6px">Per ogni misura si controllano: stato aperto e verificato, territorio, e i requisiti elencati nella scheda (età, condizione occupazionale, impresa esistente, azienda agricola, startup, compagine). Ogni criterio è «soddisfatto», «da verificare» o «mancante». Lo stato lavorativo, l\'impresa e la disponibilità di capitale non sono mai dedotti: se non li dichiari risultano «da verificare».</p></section>'+
+  '<section class="panel"><h3>Fonti ufficiali consultate</h3><ul style="margin:8px 0 0;padding-left:20px">'+
+  [["Invitalia – Resto al Sud 2.0","https://www.invitalia.it/incentivi-e-strumenti/resto-al-sud-20"],["Invitalia – ON","https://www.invitalia.it/incentivi-e-strumenti/ON-nuove-imprese-tasso-zero"],["Invitalia – Smart&Start Italia","https://www.invitalia.it/incentivi-e-strumenti/smartstart-italia"],["Invitalia – Autoimpiego Centro-Nord","https://www.invitalia.it/incentivi-e-strumenti/autoimpiego-centro-nord"],["MIMIT – Nuova Sabatini","https://www.mimit.gov.it/it/incentivi/agevolazioni-per-gli-investimenti-delle-pmi-in-beni-strumentali-nuova-sabatini"],["Regione Abruzzo – Micro Prestiti","https://coesione.regione.abruzzo.it/avvisi-pubblici/fse/avviso-unico-abruzzo-micro-prestiti"],["FiRA – Micro Prestiti","https://www.fira.it/fira-avviso-unico-abruzzo-micro-prestiti-apertura-maggio-2026chiusura-fino-a-esaurimento-risorse/"]].map(function(u){return '<li><a href="'+u[1]+'" target="_blank" rel="noopener noreferrer">'+u[0]+'</a></li>';}).join("")+'</ul></section>';
+}
+function exportText(kind){
+  var rows=(kind.indexOf("fav")===0? state.fav.map(byId).filter(Boolean) : applyFilters().map(function(x){return x.r;}));
+  if(kind.indexOf("json")>=0)return JSON.stringify(rows.map(function(r){return {id:r.id,nome:r.name,ente:r.body,stato:STATUS[effStatus(r)].l,scadenza:r.close||null,ultima_verifica:r.lastVerified||null,fonte:r.evidence,url:r.urls.map(function(u){return u.url;})};}),null,2);
+  function q(v){return '"'+String(v==null?"":v).replace(/"/g,'""')+'"';}
+  var lines=["id;nome;ente;tipo_aiuto;stato;scadenza;ultima_verifica;fonte;url"];
+  rows.forEach(function(r){lines.push([r.id,r.name,r.body,r.aid.map(function(a){return AID[a];}).join(" / "),STATUS[effStatus(r)].l,r.close||"non indicata",r.lastVerified||"mai verificata",r.evidence,r.urls[0]?r.urls[0].url:""].map(q).join(";"));});
+  return lines.join("\n");
+}
+
+/* ===================== ROUTING & EVENTS ===================== */
+var main=document.getElementById("main");
+function render(){
+  renderTabs();
+  var h="";
+  if(state.view==="home")h=home();else if(state.view==="search")h=searchView();else if(state.view==="detail")h=detail();else if(state.view==="compare")h=compareView();else if(state.view==="sim")h=simView();else if(state.view==="fav")h=favView();else h=infoView();
+  main.innerHTML=h;
+  document.getElementById("foot").innerHTML="Funding Radar Italia. Dati aggiornati al "+fmt(DATA_DATE)+". Strumento informativo: non è consulenza fiscale o legale e non garantisce l'ammissione ad alcuna misura. Verifica sempre il bando ufficiale.";
+}
+function go(v){state.view=v;render();window.scrollTo(0,0);}
+function resetFilters(){state.f={benef:[],act:[],aid:[],reg:"",status:"",dl:"",evid:false,fp:false,tz:false,lowcap:false,fit:false,cat:""};state.q="";}
+function toggle(arr,v,on){var i=arr.indexOf(v);if(on&&i<0)arr.push(v);if(!on&&i>=0)arr.splice(i,1);}
+document.addEventListener("click",function(e){
+  var t=e.target.closest("button,a");if(!t)return;
+  if(t.dataset.go){go(t.dataset.go);return;}
+  if(t.dataset.open){state.detail=t.dataset.open;state.view="detail";render();window.scrollTo(0,0);return;}
+  if(t.dataset.cat){resetFilters();state.f.cat=t.dataset.cat;go("search");return;}
+  if(t.dataset.quick){var k=t.dataset.quick;resetFilters();if(k==="evid")state.f.evid=true;if(k==="open")state.f.status="APERTO";if(k==="ann")state.f.status="ANNUNCIATA";if(k==="att")state.f.status="ATTESA_EDIZIONE";if(k==="imm")state.f.dl="45";if(k==="fit")state.f.fit=true;
+    go("search");return;}
+  if(t.dataset.fav){var id=t.dataset.fav,i=state.fav.indexOf(id);if(i>=0)state.fav.splice(i,1);else state.fav.push(id);saveFav();toast(i>=0?"Rimosso dai preferiti":"Aggiunto ai preferiti");render();return;}
+  if(t.dataset.cmpadd){addCmp(t.dataset.cmpadd);renderTabs();return;}
+  if(t.dataset.cmpdel){state.cmp=state.cmp.filter(function(x){return x!==t.dataset.cmpdel;});render();return;}
+  if(t.dataset.rm){var k2=t.dataset.rm.split(":"),f=state.f;
+    if(k2[0]==="q")state.q="";else if(k2[0]==="cat")f.cat="";else if(k2[0]==="benef"||k2[0]==="act"||k2[0]==="aid")toggle(f[k2[0]],k2[1],false);else if(["reg","status","dl"].indexOf(k2[0])>=0)f[k2[0]]="";else f[k2[0]]=false;
+    render();return;}
+  if(t.dataset.exp){var ta=document.getElementById("exp-out"),txt=exportText(t.dataset.exp);ta.value=txt;ta.hidden=false;
+    var done=function(){toast("Testo copiato negli appunti");};
+    var fb=function(){ta.focus();ta.select();toast("Selezionato: premi Ctrl+C o Cmd+C per copiare");};
+    try{navigator.clipboard.writeText(txt).then(done,fb);}catch(err){fb();}
+    return;}
+  var a=t.dataset.act;
+  if(a==="reset"){resetFilters();render();}
+  else if(a==="clearcmp"){state.cmp=[];render();}
+  else if(a==="theme"){var root=document.documentElement,dark=root.getAttribute("data-theme")==="dark"||(root.getAttribute("data-theme")!=="light"&&window.matchMedia("(prefers-color-scheme: dark)").matches);root.setAttribute("data-theme",dark?"light":"dark");}
+});
+function addCmp(id){if(state.cmp.indexOf(id)>=0){toast("Già nel confronto");return;}if(state.cmp.length>=4){toast("Massimo 4 misure nel confronto");return;}state.cmp.push(id);toast("Aggiunto al confronto");}
+document.addEventListener("change",function(e){
+  var t=e.target;
+  if(t.dataset.cmp){if(t.checked){if(state.cmp.length>=4&&state.cmp.indexOf(t.dataset.cmp)<0){t.checked=false;toast("Massimo 4 misure nel confronto");return;}if(state.cmp.indexOf(t.dataset.cmp)<0)state.cmp.push(t.dataset.cmp);}else state.cmp=state.cmp.filter(function(x){return x!==t.dataset.cmp;});renderTabs();return;}
+  if(t.dataset.fk){toggle(state.f[t.dataset.fk],t.value,t.checked);refreshResults();return;}
+  if(t.dataset.fb){state.f[t.dataset.fb]=t.checked;refreshResults();return;}
+  if(t.id==="s-reg"){state.f.reg=t.value;refreshResults();return;}
+  if(t.id==="s-st"){state.f.status=t.value;refreshResults();return;}
+  if(t.id==="s-dl"){state.f.dl=t.value;refreshResults();return;}
+  if(t.id==="s-sort"){state.sort=t.value;refreshResults();return;}
+  var pm={"p-region":["region"],"p-emp":["employment"],"p-comp":["company"],"p-farm":["farm"],"p-act":["activity"]};
+  if(pm[t.id]){profile[pm[t.id][0]]=t.value;render();return;}
+  if(t.id==="p-age"){profile.age=t.value===""?"":Number(t.value);render();return;}
+  if(t.id==="m-preset"){state.sim.preset=t.value;render();return;}
+  if(t.id==="m-sudfp"){state.sim.sudfp=t.checked;render();return;}
+});
+document.addEventListener("input",function(e){
+  var t=e.target;
+  if(t.id==="s-q"){state.q=t.value;refreshResults();return;}
+  var sm={"m-inv":"inv","m-fp":"fp","m-loan":"loan","m-rate":"rate","m-years":"years"};
+  if(sm[t.id]){state.sim[sm[t.id]]=t.value;var pos=t.id;var out=document.querySelector(".out"),pan=out&&out.nextElementSibling;var c=simCalc(state.sim);
+    var tmp=document.createElement("div");tmp.innerHTML=simView();var newOut=tmp.querySelector(".out"),newPan=tmp.querySelector(".out+.panel");if(out&&newOut){out.innerHTML=newOut.innerHTML;if(pan&&newPan)pan.innerHTML=newPan.innerHTML;}}
+});
+document.addEventListener("submit",function(e){
+  if(e.target.id==="homeSearch"){e.preventDefault();var v=document.getElementById("hq").value;resetFilters();state.q=v;go("search");}
+});
+render();
+</script>
+
+</body></html>
